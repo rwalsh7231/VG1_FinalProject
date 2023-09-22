@@ -27,8 +27,8 @@ public class RoomGeneration : MonoBehaviour
         //make a new room, place it in the middle of the grid, and generate some doors
         Vector3 position = new Vector3(0, 0, 0);
         currentRoom = Instantiate(room, position, Quaternion.identity);
-        currentRoom.GetComponent<RoomScript>().coords[0] = 3;
-        currentRoom.GetComponent<RoomScript>().coords[1] = 3;
+        currentRoom.GetComponent<RoomScript>().xcoord = 3;
+        currentRoom.GetComponent<RoomScript>().ycoord = 3;
         spaces[3, 3] = 1;
         //since this is the first room, there is no exclusion
         generateDoor('X');
@@ -43,6 +43,7 @@ public class RoomGeneration : MonoBehaviour
         for (int i = 0; i < activeDoors.Count; i++) {
             if (activeDoors[i] != null && activeDoors[i].GetComponent<RoomGeneratingDoor>().contact) {
                 newRoom(activeDoors[i]);
+                return;
             }
         }
     }
@@ -50,8 +51,9 @@ public class RoomGeneration : MonoBehaviour
     void generateDoor(char exclusion) {
         //first we need to know how many rooms can be generated
         
-        List<char> directions = new List<char> { 'U', 'D', 'L', 'D'};
+        List<char> directions = new List<char> { 'U', 'D', 'L', 'R'};
 
+        //Avoid bugs and don't add a new door where player entered
         switch (exclusion) {
             case 'U':
                 directions.Remove('D');
@@ -68,6 +70,27 @@ public class RoomGeneration : MonoBehaviour
             default:
                 break;
         }
+
+        //don't go off grid, remove any directions that are impossible
+        if (currentRoom.GetComponent<RoomScript>().xcoord == 1) {
+            directions.Remove('L');
+        }
+
+        if (currentRoom.GetComponent<RoomScript>().xcoord == 5)
+        {
+            directions.Remove('R');
+        }
+
+        if (currentRoom.GetComponent<RoomScript>().ycoord == 1)
+        {
+            directions.Remove('D');
+        }
+
+        if (currentRoom.GetComponent<RoomScript>().ycoord == 5)
+        {
+            directions.Remove('U');
+        }
+
 
         int howMany = Random.Range(2, directions.Count);
 
@@ -87,25 +110,25 @@ public class RoomGeneration : MonoBehaviour
             //place the new door in a specific position and save the door to the activeDoor list
             switch (direction){
                 case 'U':
-                    position.y += 0.5f;
+                    position.y += 0.45f;
                     genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 90));
                     genDoor.GetComponent<RoomGeneratingDoor>().roomDir = direction;
                     activeDoors.Add(genDoor);
                     break;
                 case 'D':
-                    position.y -= 0.5f;
+                    position.y -= 0.45f;
                     genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 90));
                     genDoor.GetComponent<RoomGeneratingDoor>().roomDir = direction;
                     activeDoors.Add(genDoor);
                     break;
                 case 'L':
-                    position.x -= 0.5f;
+                    position.x -= 0.45f;
                     genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 0));
                     genDoor.GetComponent<RoomGeneratingDoor>().roomDir = direction;
                     activeDoors.Add(genDoor);
                     break;
                 case 'R':
-                    position.x -= 0.5f;
+                    position.x -= 0.45f;
                     genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 0));
                     genDoor.GetComponent<RoomGeneratingDoor>().roomDir = direction;
                     activeDoors.Add(genDoor);
@@ -126,20 +149,24 @@ public class RoomGeneration : MonoBehaviour
 
         switch (d.GetComponent<RoomGeneratingDoor>().roomDir) {
             case 'U':
-                position.y += 0.5f;
-                newRoom = Instantiate(room, position, Quaternion.identity);
+                position.y += 1;
+                newRoom = Instantiate(currentRoom, position, Quaternion.identity);
+                newRoom.GetComponent<RoomScript>().ycoord = currentRoom.GetComponent<RoomScript>().ycoord + 1;
                 break;
             case 'D':
-                position.y -= 0.5f;
-                newRoom = Instantiate(room, position, Quaternion.identity);
+                position.y -= 1;
+                newRoom = Instantiate(currentRoom, position, Quaternion.identity);
+                newRoom.GetComponent<RoomScript>().ycoord = currentRoom.GetComponent<RoomScript>().ycoord - 1;
                 break;
             case 'L':
-                position.x -= 0.5f;
-                newRoom = Instantiate(room, position, Quaternion.identity);
+                position.x -= 1;
+                newRoom = Instantiate(currentRoom, position, Quaternion.identity);
+                newRoom.GetComponent<RoomScript>().xcoord = currentRoom.GetComponent<RoomScript>().xcoord - 1;
                 break;
             case 'R':
-                position.x += 0.5f;
-                newRoom = Instantiate(room, position, Quaternion.identity);
+                position.x += 1;
+                newRoom = Instantiate(currentRoom, position, Quaternion.identity);
+                newRoom.GetComponent<RoomScript>().xcoord = currentRoom.GetComponent<RoomScript>().xcoord + 1;
                 break;
             default:
                 break;
