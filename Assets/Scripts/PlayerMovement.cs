@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement instance;
     int sprintMult = 1;
     public Image stamBar;
 
@@ -16,15 +17,19 @@ public class PlayerMovement : MonoBehaviour
 	public Transform aimPivot;
 	public GameObject projectilePrefab;
 
-    // Start is called before the first frame update
-    void Start()
+    public bool isPaused;
+
+    void Awake()
     {
-        
+        instance = this;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(isPaused) {
+            return;
+        }
 
         //sprinting capability
         if (Input.GetKeyDown(KeyCode.LeftShift) && currStam > 0)
