@@ -42,6 +42,8 @@ public class RoomGeneration : MonoBehaviour
         //if so, make a new room
         for (int i = 0; i < activeDoors.Count; i++) {
             if (activeDoors[i] != null && activeDoors[i].GetComponent<RoomGeneratingDoor>().contact) {
+                print("size of active doors " + activeDoors.Count);
+                print(i);
                 newRoom(activeDoors[i]);
                 return;
             }
@@ -51,6 +53,7 @@ public class RoomGeneration : MonoBehaviour
     void generateDoor(char exclusion) {
         //first we need to know how many rooms can be generated
         
+        //four directions
         List<char> directions = new List<char> { 'U', 'D', 'L', 'R'};
 
         //Avoid bugs and don't add a new door where player entered
@@ -92,7 +95,7 @@ public class RoomGeneration : MonoBehaviour
         }
 
 
-        int howMany = Random.Range(2, directions.Count);
+        int howMany = Random.Range(1, directions.Count);
 
         //for each room to be generated
         for (int i = 0; i < howMany; i++)
@@ -128,7 +131,7 @@ public class RoomGeneration : MonoBehaviour
                     activeDoors.Add(genDoor);
                     break;
                 case 'R':
-                    position.x -= 0.45f;
+                    position.x += 0.45f;
                     genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 0));
                     genDoor.GetComponent<RoomGeneratingDoor>().roomDir = direction;
                     activeDoors.Add(genDoor);
@@ -176,6 +179,9 @@ public class RoomGeneration : MonoBehaviour
         {
             Destroy(activeDoors[i]);
         }
+
+        activeDoors.Clear();
+
         Destroy(currentRoom);
 
         currentRoom = newRoom;
