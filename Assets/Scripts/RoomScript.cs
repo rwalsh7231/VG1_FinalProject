@@ -7,15 +7,11 @@ public class RoomScript : MonoBehaviour
     public int xcoord = 0;
     public int ycoord = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerExit2D(Collider2D other)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (other.gameObject.GetComponent<PlayerMovement>())
+        {
+            Destroy(gameObject);
+        }
     }
 }

@@ -182,7 +182,7 @@ public class RoomGeneration : MonoBehaviour
 
         activeDoors.Clear();
 
-        Destroy(currentRoom);
+        //Destroy(currentRoom);
 
         currentRoom = newRoom;
 
