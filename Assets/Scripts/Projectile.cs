@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectiles : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
     private Rigidbody2D _rigidbody2D;
     // Start is called before the first frame update

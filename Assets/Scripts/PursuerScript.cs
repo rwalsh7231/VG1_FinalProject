@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 public class PursuerScript : MonoBehaviour
 {
     public Transform player;
+	public int health = 5;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +27,14 @@ public class PursuerScript : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.GetComponent<PlayerMovement>()) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+ 		if (other.gameObject.GetComponent<Projectile>())
+        {
+            health--;
+            if (health == 0)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

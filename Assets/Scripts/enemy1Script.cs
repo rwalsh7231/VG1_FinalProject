@@ -8,6 +8,8 @@ public class enemy1Script : MonoBehaviour
 {
 
     public Transform player;
+
+    public int health = 10;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,5 +30,15 @@ public class enemy1Script : MonoBehaviour
         if (other.gameObject.GetComponent<PlayerMovement>()) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+        
+        if (other.gameObject.GetComponent<Projectile>())
+        {
+            health--;
+            if (health == 0)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
+    
 }
