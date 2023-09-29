@@ -101,6 +101,10 @@ public class PlayerMovement : MonoBehaviour
 			newProjectile.transform.position = transform.position;
 			newProjectile.transform.rotation = aimPivot.rotation;
 		}
+
+        if(Input.GetKeyDown(KeyCode.Escape)) {
+            MenuController.instance.Show();
+        }
     }
 
     
