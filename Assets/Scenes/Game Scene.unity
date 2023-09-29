@@ -1271,7 +1271,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Survive deadly monsters for as long as possible (by running away)!
+  m_text: Survive deadly monsters for as long as possible (alternatively, just kill
+    them)!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2534,7 +2535,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1726224150
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2962,6 +2963,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7aa8cdba6aa2bd24ebb718e2f8097236, type: 3}
+--- !u!1001 &5135825562827133509
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1671867418990816935, guid: 23704c91bb88f0c428021027209b14e3, type: 3}
+      propertyPath: m_Name
+      value: Little Monster
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630934274947897187, guid: 23704c91bb88f0c428021027209b14e3, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1207694115}
+    - target: {fileID: 3728865099575400325, guid: 23704c91bb88f0c428021027209b14e3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3728865099575400325, guid: 23704c91bb88f0c428021027209b14e3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3728865099575400325, guid: 23704c91bb88f0c428021027209b14e3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3728865099575400325, guid: 23704c91bb88f0c428021027209b14e3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3728865099575400325, guid: 23704c91bb88f0c428021027209b14e3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3728865099575400325, guid: 23704c91bb88f0c428021027209b14e3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3728865099575400325, guid: 23704c91bb88f0c428021027209b14e3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3728865099575400325, guid: 23704c91bb88f0c428021027209b14e3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3728865099575400325, guid: 23704c91bb88f0c428021027209b14e3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3728865099575400325, guid: 23704c91bb88f0c428021027209b14e3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 23704c91bb88f0c428021027209b14e3, type: 3}
 --- !u!1001 &8352543618165650487
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3040,3 +3102,4 @@ SceneRoots:
   - {fileID: 3750075397864844934}
   - {fileID: 159443831}
   - {fileID: 1914353916}
+  - {fileID: 5135825562827133509}
