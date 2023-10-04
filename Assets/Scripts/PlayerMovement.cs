@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement instance;
     int sprintMult = 1;
     public Image stamBar;
+    public TMP_Text textScore;
+    public TMP_Text finalScore;
 
     public float currStam, maxStam;
     public int currHealth, maxHealth;
+    public int score;
     public float sprintCost;
     public float stamRecharge;
+    public float scoreDelay;
 
 	Rigidbody2D _rigidbody2D;
 	public Transform aimPivot;
@@ -25,6 +30,12 @@ public class PlayerMovement : MonoBehaviour
         instance = this;
     }
 
+    void Start() {
+        score = 0;
+        scoreDelay = 1f;
+        StartCoroutine("ScoreTimer");
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -32,9 +43,12 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        textScore.text = score.ToString();
+
         if(currHealth <= 0) {
             MenuController.instance.GameOver();
             currHealth = maxHealth;
+            finalScore.text = "Final Score: " + score.ToString();
         }
 
         //sprinting capability
@@ -111,6 +125,21 @@ public class PlayerMovement : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape)) {
             MenuController.instance.Show();
         }
+    }
+
+    public void EarnPoints(int pointAmount) {
+        score += pointAmount;
+    }
+
+    IEnumerator ScoreTimer() {
+        // Wait
+        yield return new WaitForSeconds(scoreDelay);
+
+        // Add to score
+        EarnPoints(1);
+
+        // Repeat
+        StartCoroutine("ScoreTimer");
     }
 
     

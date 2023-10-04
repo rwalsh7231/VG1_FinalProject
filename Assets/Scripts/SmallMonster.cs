@@ -14,6 +14,7 @@ public class SmallMonster : MonoBehaviour
         }
         if(other.gameObject.GetComponent<Projectile>()) {
             Destroy(gameObject);
+            PlayerMovement.instance.EarnPoints(10);
         }
     }
 

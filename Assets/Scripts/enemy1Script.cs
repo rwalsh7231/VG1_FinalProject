@@ -36,6 +36,7 @@ public class enemy1Script : MonoBehaviour
             health--;
             if (health == 0)
             {
+                PlayerMovement.instance.EarnPoints(100);
                 Destroy(gameObject);
             }
         }

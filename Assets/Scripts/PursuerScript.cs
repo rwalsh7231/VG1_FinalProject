@@ -33,6 +33,7 @@ public class PursuerScript : MonoBehaviour
             health--;
             if (health == 0)
             {
+                PlayerMovement.instance.EarnPoints(50);
                 Destroy(gameObject);
             }
         }
