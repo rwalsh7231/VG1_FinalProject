@@ -27,6 +27,7 @@ public class PursuerScript : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.GetComponent<PlayerMovement>()) {
             PlayerMovement.instance.currHealth = 0;
+            PlayerMovement.instance.healthBar.fillAmount = 0;
         }
  		if (other.gameObject.GetComponent<Projectile>())
         {

@@ -9,7 +9,8 @@ public class SmallMonster : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other)
     {
         if(other.gameObject.GetComponent<PlayerMovement>()) {
-            PlayerMovement.instance.currHealth = PlayerMovement.instance.currHealth - 1;
+            PlayerMovement.instance.currHealth = PlayerMovement.instance.currHealth - 1f;
+            PlayerMovement.instance.healthBar.fillAmount = PlayerMovement.instance.currHealth / PlayerMovement.instance.maxHealth;
             Destroy(gameObject);
         }
         if(other.gameObject.GetComponent<Projectile>()) {

@@ -9,11 +9,12 @@ public class PlayerMovement : MonoBehaviour
     public static PlayerMovement instance;
     int sprintMult = 1;
     public Image stamBar;
+    public Image healthBar;
     public TMP_Text textScore;
     public TMP_Text finalScore;
 
     public float currStam, maxStam;
-    public int currHealth, maxHealth;
+    public float currHealth, maxHealth;
     public int score;
     public float sprintCost;
     public float stamRecharge;
@@ -32,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start() {
         score = 0;
+        currHealth = maxHealth;
         scoreDelay = 1f;
         StartCoroutine("ScoreTimer");
     }
@@ -47,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(currHealth <= 0) {
             MenuController.instance.GameOver();
-            currHealth = maxHealth;
+            currHealth = 0;
             finalScore.text = "Final Score: " + score.ToString();
         }
 
@@ -103,7 +105,12 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (sprintMult == 1) {
-            currStam += stamRecharge * Time.deltaTime;
+            if(currStam < maxStam) {
+                currStam += stamRecharge * Time.deltaTime;
+            }
+            if(currStam > maxStam) {
+                currStam = maxStam;
+            }
             stamBar.fillAmount = currStam / maxStam;
         }
 
