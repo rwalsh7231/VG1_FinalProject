@@ -26,7 +26,7 @@ public class PursuerScript : MonoBehaviour
     //if the pursuer collides with the player, reset game
     void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.GetComponent<PlayerMovement>()) {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            PlayerMovement.instance.currHealth = 0;
         }
  		if (other.gameObject.GetComponent<Projectile>())
         {

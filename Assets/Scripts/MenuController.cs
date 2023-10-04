@@ -10,6 +10,7 @@ public class MenuController : MonoBehaviour
     // Outlets
     public GameObject startMenu;
     public GameObject pauseMenu;
+    public GameObject gameOverMenu;
 
     // Methods
     void Awake()
@@ -22,6 +23,7 @@ public class MenuController : MonoBehaviour
         startMenu.SetActive(true);
         gameObject.SetActive(true);
         pauseMenu.SetActive(false);
+        gameOverMenu.SetActive(false);
         Time.timeScale = 0;
         PlayerMovement.instance.isPaused = true;
     }
@@ -36,11 +38,21 @@ public class MenuController : MonoBehaviour
     public void Hide() {
         startMenu.SetActive(false);
         pauseMenu.SetActive(false);
+        gameOverMenu.SetActive(false);
         gameObject.SetActive(false);
         Time.timeScale = 1;
         if(PlayerMovement.instance != null) {
             PlayerMovement.instance.isPaused = false;
         }
+    }
+
+    public void GameOver() {
+        startMenu.SetActive(false);
+        pauseMenu.SetActive(false);
+        gameOverMenu.SetActive(true);
+        gameObject.SetActive(true);
+        Time.timeScale = 0;
+        PlayerMovement.instance.isPaused = true;
     }
 
     public void LoadLevel() {

@@ -8,7 +8,13 @@ public class SmallMonster : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        Destroy(gameObject);
+        if(other.gameObject.GetComponent<PlayerMovement>()) {
+            PlayerMovement.instance.currHealth = PlayerMovement.instance.currHealth - 1;
+            Destroy(gameObject);
+        }
+        if(other.gameObject.GetComponent<Projectile>()) {
+            Destroy(gameObject);
+        }
     }
 
     // Update is called once per frame

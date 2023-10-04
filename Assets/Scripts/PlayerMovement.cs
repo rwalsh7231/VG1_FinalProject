@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public Image stamBar;
 
     public float currStam, maxStam;
+    public int currHealth, maxHealth;
     public float sprintCost;
     public float stamRecharge;
 
@@ -29,6 +30,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if(isPaused) {
             return;
+        }
+
+        if(currHealth <= 0) {
+            MenuController.instance.GameOver();
+            currHealth = maxHealth;
         }
 
         //sprinting capability

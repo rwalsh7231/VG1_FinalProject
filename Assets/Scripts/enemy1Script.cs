@@ -28,7 +28,7 @@ public class enemy1Script : MonoBehaviour
     
     void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.GetComponent<PlayerMovement>()) {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            PlayerMovement.instance.currHealth = 0;
         }
         
         if (other.gameObject.GetComponent<Projectile>())
