@@ -12,7 +12,9 @@ public class PlayerMovement : MonoBehaviour
     public Image healthBar;
     public TMP_Text textScore;
     public TMP_Text finalScore;
+    public TMP_Text ammoCount;
 
+    public int currAmmo;
     public float currStam, maxStam;
     public float currHealth, maxHealth;
     public int score;
@@ -36,16 +38,19 @@ public class PlayerMovement : MonoBehaviour
         currHealth = maxHealth;
         scoreDelay = 1f;
         StartCoroutine("ScoreTimer");
+        ammoCount.text = currAmmo.ToString();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if(isPaused) {
             return;
         }
 
         textScore.text = score.ToString();
+        ammoCount.text = currAmmo.ToString();
 
         if(currHealth <= 0) {
             MenuController.instance.GameOver();
@@ -123,10 +128,12 @@ public class PlayerMovement : MonoBehaviour
 
 		aimPivot.rotation = Quaternion.Euler(0,0, angleToMouse);
 
-		if(Input.GetMouseButtonDown(0)) {
+		if(Input.GetMouseButtonDown(0) && currAmmo > 0) {
 			GameObject newProjectile = Instantiate(projectilePrefab);
 			newProjectile.transform.position = transform.position;
 			newProjectile.transform.rotation = aimPivot.rotation;
+            currAmmo--;
+            ammoCount.text = currAmmo.ToString();
 		}
 
         if(Input.GetKeyDown(KeyCode.Escape)) {

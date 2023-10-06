@@ -13,6 +13,8 @@ public class RoomGeneration : MonoBehaviour
     public GameObject room;
     public GameObject door;
     public GameObject blocker;
+    public GameObject ammoCrate;
+    public GameObject Teleporter;
 
     //keep track of the room that the player is currently in and the doors that are currently active
     private GameObject currentRoom;
@@ -221,6 +223,8 @@ public class RoomGeneration : MonoBehaviour
         prevRoom = currentRoom;
         currentRoom = newRoom;
 
+        createEvent(position);
+
         //make some new rooms
         generateDoor(d.GetComponent<RoomGeneratingDoor>().roomDir);
 
@@ -234,5 +238,51 @@ public class RoomGeneration : MonoBehaviour
             spaces[x + 2, y + 2].SetActive(true);
         }
         
+    }
+
+    //has a chance to generate a room event
+    public void createEvent(Vector3 position) {
+        int num = Random.Range(0, 10);
+
+        if (num == 0) {
+            GameObject Ammo = Instantiate(ammoCrate, position, Quaternion.identity);
+            currentRoom.GetComponent<RoomScript>().eventItem = Ammo;
+        }
+
+        if (num == 1) { 
+            GameObject Tele = Instantiate(Teleporter, position, Quaternion.identity);
+            currentRoom.GetComponent<RoomScript>().eventItem = Tele;
+        }
+        
+    }
+
+    public void telport(int x, int y)
+    {
+        //restart blockers and delete rooms
+        spaces[currentRoom.GetComponent<RoomScript>().xcoord+2, currentRoom.GetComponent<RoomScript>().ycoord+2].SetActive(true);
+        Destroy(currentRoom);
+        if(prevRoom != null)
+        {
+            spaces[prevRoom.GetComponent<RoomScript>().xcoord+2, prevRoom.GetComponent<RoomScript>().ycoord + 2].SetActive(true);
+            Destroy(prevRoom);
+        }
+
+        for (int i = 0; i < activeDoors.Count; i++) {
+            Destroy(activeDoors[i]);
+        }
+        activeDoors.Clear();
+
+        //open a new space
+        spaces[x, y].SetActive(false);
+
+        Vector3 position = new Vector3(x-2, y-2, 0);
+
+        currentRoom = Instantiate(room, position, Quaternion.identity);
+        currentRoom.GetComponent<RoomScript>().xcoord = x-2;
+        currentRoom.GetComponent<RoomScript>().ycoord = y-2;
+        GameObject player = GameObject.Find("Player");
+        player.transform.position = position;
+
+        generateDoor('X');
     }
 }

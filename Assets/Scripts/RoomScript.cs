@@ -9,6 +9,7 @@ public class RoomScript : MonoBehaviour
     public int ycoord = 0;
     GameObject player;
     GameObject floor;
+    public GameObject eventItem;
 
     private void Start()
     {
@@ -21,6 +22,10 @@ public class RoomScript : MonoBehaviour
         //if the player and floor is not deleted, do the following
         if (player != null && floor != null) {
             floor.GetComponent<RoomGeneration>().updateSpaces(xcoord, ycoord);
+            if(eventItem != null)
+            {
+                Destroy(eventItem);
+            }
             Destroy(gameObject);
         }
     }
