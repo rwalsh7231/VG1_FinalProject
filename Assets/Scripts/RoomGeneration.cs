@@ -15,7 +15,9 @@ public class RoomGeneration : MonoBehaviour
     public GameObject blocker;
 
     //keep track of the room that the player is currently in and the doors that are currently active
-    private Object currentRoom;
+    private GameObject currentRoom;
+    private GameObject prevRoom;
+    private char prevRoomDir;
     private List<Object> activeDoors = new List<Object>();
 
     //it is likely we need a grid to keep track of used/not used spaces for generation
@@ -50,6 +52,17 @@ public class RoomGeneration : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (currentRoom == null) {
+            currentRoom = prevRoom;
+            for(int i = 0; i < activeDoors.Count; i++)
+            {
+                Destroy(activeDoors[i]);
+            }
+            activeDoors.Clear();
+
+            generateDoor(prevRoomDir);
+        }
+
         //checks each frame to see if a door has been touched by a plyer.
         //if so, make a new room
         for (int i = 0; i < activeDoors.Count; i++) {
@@ -168,21 +181,25 @@ public class RoomGeneration : MonoBehaviour
                 position.y += 1;
                 newRoom = (GameObject) Instantiate(currentRoom, position, Quaternion.identity);
                 newRoom.GetComponent<RoomScript>().ycoord = currentRoom.GetComponent<RoomScript>().ycoord + 1;
+                prevRoomDir = 'D';
                 break;
             case 'D':
                 position.y -= 1;
                 newRoom = (GameObject) Instantiate(currentRoom, position, Quaternion.identity);
                 newRoom.GetComponent<RoomScript>().ycoord = currentRoom.GetComponent<RoomScript>().ycoord - 1;
+                prevRoomDir = 'U';
                 break;
             case 'L':
                 position.x -= 1;
                 newRoom = (GameObject) Instantiate(currentRoom, position, Quaternion.identity);
                 newRoom.GetComponent<RoomScript>().xcoord = currentRoom.GetComponent<RoomScript>().xcoord - 1;
+                prevRoomDir = 'R';
                 break;
             case 'R':
                 position.x += 1;
                 newRoom = (GameObject) Instantiate(currentRoom, position, Quaternion.identity);
                 newRoom.GetComponent<RoomScript>().xcoord = currentRoom.GetComponent<RoomScript>().xcoord + 1;
+                prevRoomDir = 'L';
                 break;
             default:
                 break;
@@ -201,6 +218,7 @@ public class RoomGeneration : MonoBehaviour
         activeDoors.Clear();
 
         //current room becomes the new room
+        prevRoom = currentRoom;
         currentRoom = newRoom;
 
         //make some new rooms
