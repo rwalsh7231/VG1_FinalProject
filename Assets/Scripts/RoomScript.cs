@@ -7,18 +7,21 @@ public class RoomScript : MonoBehaviour
 {
     public int xcoord = 0;
     public int ycoord = 0;
-    public Object blocker;
+    GameObject player;
+    GameObject floor;
+
+    private void Start()
+    {
+        player = GameObject.Find("Player");
+        floor = GameObject.Find("Floor");
+    }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<PlayerMovement>())
-        {
-            if (other.gameObject != null) {
-                GameObject floor = GameObject.Find("Floor");
-                floor.GetComponent<RoomGeneration>().updateSpaces(xcoord, ycoord);
-            }
+        //if the player and floor is not deleted, do the following
+        if (player != null && floor != null) {
+            floor.GetComponent<RoomGeneration>().updateSpaces(xcoord, ycoord);
             Destroy(gameObject);
         }
-
     }
 }
