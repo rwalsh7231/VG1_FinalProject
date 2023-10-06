@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class PursuerScript : MonoBehaviour
 {
     public Transform player;
-	public int health = 5;
+    public Image imageHealthBar;
+	public float enemyHealthMax = 5f;
+	public float enemyHealth = 5f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,11 +34,14 @@ public class PursuerScript : MonoBehaviour
         }
  		if (other.gameObject.GetComponent<Projectile>())
         {
-            health--;
-            if (health == 0)
+            enemyHealth--;
+			imageHealthBar.fillAmount = enemyHealth/enemyHealthMax;
+            if (enemyHealth == 0)
             {
                 PlayerMovement.instance.EarnPoints(50);
                 Destroy(gameObject);
+				
+
             }
         }
     }
