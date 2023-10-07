@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3559714700966080308}
   - component: {fileID: 4834990630785336965}
   - component: {fileID: 2630934274947897187}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Little Monster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
