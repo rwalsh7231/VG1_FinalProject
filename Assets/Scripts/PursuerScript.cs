@@ -10,6 +10,7 @@ public class PursuerScript : MonoBehaviour
     public Image imageHealthBar;
 	public float enemyHealthMax = 5f;
 	public float enemyHealth = 5f;
+    public SpriteRenderer spriteHealthBar;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,7 @@ public class PursuerScript : MonoBehaviour
         {
             enemyHealth--;
 			imageHealthBar.fillAmount = enemyHealth/enemyHealthMax;
+            spriteHealthBar.transform.localScale = new Vector3(200*enemyHealth/enemyHealthMax, 20, 1);
             if (enemyHealth == 0)
             {
                 PlayerMovement.instance.EarnPoints(50);

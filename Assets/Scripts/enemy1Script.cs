@@ -13,6 +13,7 @@ public class enemy1Script : MonoBehaviour
     public float health = 10f;
     
     public Image imageHealthBar;
+    public SpriteRenderer spriteHealthBar;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +42,7 @@ public class enemy1Script : MonoBehaviour
         {
             health--;
             imageHealthBar.fillAmount = health / healthMax;
+            spriteHealthBar.transform.localScale = new Vector3(350*health/healthMax, 35, 1);
             if (health == 0)
             {
                 PlayerMovement.instance.EarnPoints(100);
