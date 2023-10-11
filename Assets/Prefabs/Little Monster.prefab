@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3728865099575400325}
   - component: {fileID: 3559714700966080308}
   - component: {fileID: 4834990630785336965}
-  - component: {fileID: 2630934274947897187}
+  - component: {fileID: 1151673010082300714}
   m_Layer: 8
   m_Name: Little Monster
   m_TagString: Untagged
@@ -131,7 +131,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &2630934274947897187
+--- !u!114 &1151673010082300714
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,7 +140,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1671867418990816935}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cdf4ed1af681e141937528e1aa1fdac, type: 3}
+  m_Script: {fileID: 11500000, guid: 567c0d762335a6a48b144f2dba00ad6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  imageHealthBar: {fileID: 0}
+  enemyHealthMax: 1
+  enemyHealth: 1
+  spriteHealthBar: {fileID: 0}
+  speedUp: 0
+  oneShot: 0
+  damage: 1
+  fragileEnemy: 1
+  enemyPoints: 10
