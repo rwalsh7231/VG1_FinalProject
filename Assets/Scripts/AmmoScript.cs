@@ -8,7 +8,7 @@ public class AmmoScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<PlayerMovement>()) {
-            collision.gameObject.GetComponent<PlayerMovement>().currAmmo += 5;
+            collision.gameObject.GetComponent<PlayerMovement>().currAmmo += 10;
             Destroy(gameObject);
         }
     }
