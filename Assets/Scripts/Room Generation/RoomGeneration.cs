@@ -287,4 +287,9 @@ public class RoomGeneration : MonoBehaviour
 
         generateDoor('X');
     }
+
+    public int specialRoom() {
+        //which room can spawn? -1 means no special room can spawn
+        return -1;
+    }
 }
