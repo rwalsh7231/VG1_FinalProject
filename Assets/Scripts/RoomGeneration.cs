@@ -11,6 +11,7 @@ public class RoomGeneration : MonoBehaviour
 {
     //we need to keep track of rooms and doors this object can generate
     public GameObject room;
+    public GameObject bigRoom;
     public GameObject door;
     public GameObject blocker;
     public GameObject ammoCrate;
