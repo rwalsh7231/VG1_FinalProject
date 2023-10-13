@@ -16,8 +16,8 @@ public class Door : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<PlayerMovement>()) {
-            int x = Random.Range(0, 5);
-            int y = Random.Range(0, 5);
+            int x = Random.Range(0, 15);
+            int y = Random.Range(0, 15);
 
             print(x + "," + y);
             floor.GetComponent<RoomGeneration>().telport(x, y);

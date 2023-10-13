@@ -23,7 +23,7 @@ public class RoomGeneration : MonoBehaviour
     private List<Object> activeDoors = new List<Object>();
 
     //it is likely we need a grid to keep track of used/not used spaces for generation
-    GameObject[,] spaces = new GameObject[5, 5];
+    GameObject[,] spaces = new GameObject[15, 15];
 
     // Start is called before the first frame update
     void Start()
@@ -36,15 +36,15 @@ public class RoomGeneration : MonoBehaviour
 
         
         //fill the grid with blockers
-        for (int i = -2; i <= 2; i++) {
-            for (int j = -2; j <= 2; j++) {
-                position = new Vector3(i, j, 0);
+        for (int i = -7; i <= 7; i++) {
+            for (int j = -7; j <= 7; j++) {
+                position = new Vector3(i*2, j*2, 0);
                 GameObject block = Instantiate(blocker, position, Quaternion.identity);
-                spaces[i + 2, j + 2] = block;
+                spaces[i + 7, j + 7] = block;
             }
         }
 
-        spaces[2, 2].SetActive(false);
+        spaces[7, 7].SetActive(false);
         
         //since this is the first room, there is no exclusion
         generateDoor('X');
@@ -102,21 +102,21 @@ public class RoomGeneration : MonoBehaviour
         }
 
         //don't go off grid, remove any directions that are impossible
-        if (currentRoom.GetComponent<RoomScript>().xcoord == -2) {
+        if (currentRoom.GetComponent<RoomScript>().xcoord == -7) {
             directions.Remove('L');
         }
 
-        if (currentRoom.GetComponent<RoomScript>().xcoord == 2)
+        if (currentRoom.GetComponent<RoomScript>().xcoord == 7)
         {
             directions.Remove('R');
         }
 
-        if (currentRoom.GetComponent<RoomScript>().ycoord == -2)
+        if (currentRoom.GetComponent<RoomScript>().ycoord == -7)
         {
             directions.Remove('D');
         }
 
-        if (currentRoom.GetComponent<RoomScript>().ycoord == 2)
+        if (currentRoom.GetComponent<RoomScript>().ycoord == 7)
         {
             directions.Remove('U');
         }
@@ -140,25 +140,25 @@ public class RoomGeneration : MonoBehaviour
             //place the new door in a specific position and save the door to the activeDoor list
             switch (direction){
                 case 'U':
-                    position.y += 0.45f;
+                    position.y += 0.95f;
                     genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 90));
                     genDoor.GetComponent<RoomGeneratingDoor>().roomDir = direction;
                     activeDoors.Add(genDoor);
                     break;
                 case 'D':
-                    position.y -= 0.45f;
+                    position.y -= 0.95f;
                     genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 90));
                     genDoor.GetComponent<RoomGeneratingDoor>().roomDir = direction;
                     activeDoors.Add(genDoor);
                     break;
                 case 'L':
-                    position.x -= 0.45f;
+                    position.x -= 0.95f;
                     genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 0));
                     genDoor.GetComponent<RoomGeneratingDoor>().roomDir = direction;
                     activeDoors.Add(genDoor);
                     break;
                 case 'R':
-                    position.x += 0.45f;
+                    position.x += 0.95f;
                     genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 0));
                     genDoor.GetComponent<RoomGeneratingDoor>().roomDir = direction;
                     activeDoors.Add(genDoor);
@@ -180,25 +180,25 @@ public class RoomGeneration : MonoBehaviour
         //which direction should a room generate?
         switch (d.GetComponent<RoomGeneratingDoor>().roomDir) {
             case 'U':
-                position.y += 1;
+                position.y += 2;
                 newRoom = (GameObject) Instantiate(currentRoom, position, Quaternion.identity);
                 newRoom.GetComponent<RoomScript>().ycoord = currentRoom.GetComponent<RoomScript>().ycoord + 1;
                 prevRoomDir = 'D';
                 break;
             case 'D':
-                position.y -= 1;
+                position.y -= 2;
                 newRoom = (GameObject) Instantiate(currentRoom, position, Quaternion.identity);
                 newRoom.GetComponent<RoomScript>().ycoord = currentRoom.GetComponent<RoomScript>().ycoord - 1;
                 prevRoomDir = 'U';
                 break;
             case 'L':
-                position.x -= 1;
+                position.x -= 2;
                 newRoom = (GameObject) Instantiate(currentRoom, position, Quaternion.identity);
                 newRoom.GetComponent<RoomScript>().xcoord = currentRoom.GetComponent<RoomScript>().xcoord - 1;
                 prevRoomDir = 'R';
                 break;
             case 'R':
-                position.x += 1;
+                position.x += 2;
                 newRoom = (GameObject) Instantiate(currentRoom, position, Quaternion.identity);
                 newRoom.GetComponent<RoomScript>().xcoord = currentRoom.GetComponent<RoomScript>().xcoord + 1;
                 prevRoomDir = 'L';
@@ -213,7 +213,7 @@ public class RoomGeneration : MonoBehaviour
         }
 
         //deactivate room
-        spaces[(int) position.x + 2, (int) position.y + 2].SetActive(false);
+        spaces[newRoom.GetComponent<RoomScript>().xcoord + 7, newRoom.GetComponent<RoomScript>().ycoord + 7].SetActive(false);
 
         //spaces[(int)position.x + 2, (int)position.y + 2] = newRoom;
 
@@ -233,9 +233,9 @@ public class RoomGeneration : MonoBehaviour
     public void updateSpaces(int x, int y) {
 
         //check if the space has been deleted, if not make it active
-        if (spaces[x+2, y+2] != null)
+        if (spaces[x+7, y+7] != null)
         {
-            spaces[x + 2, y + 2].SetActive(true);
+            spaces[x + 7, y + 7].SetActive(true);
         }
         
     }
@@ -259,14 +259,15 @@ public class RoomGeneration : MonoBehaviour
     public void telport(int x, int y)
     {
         //restart blockers and delete rooms
-        spaces[currentRoom.GetComponent<RoomScript>().xcoord+2, currentRoom.GetComponent<RoomScript>().ycoord+2].SetActive(true);
+        spaces[currentRoom.GetComponent<RoomScript>().xcoord+7, currentRoom.GetComponent<RoomScript>().ycoord+7].SetActive(true);
         Destroy(currentRoom);
         if(prevRoom != null)
         {
-            spaces[prevRoom.GetComponent<RoomScript>().xcoord+2, prevRoom.GetComponent<RoomScript>().ycoord + 2].SetActive(true);
+            spaces[prevRoom.GetComponent<RoomScript>().xcoord + 7, prevRoom.GetComponent<RoomScript>().ycoord + 7].SetActive(true);
             Destroy(prevRoom);
         }
 
+        //destroy all currently active doors
         for (int i = 0; i < activeDoors.Count; i++) {
             Destroy(activeDoors[i]);
         }
@@ -275,11 +276,11 @@ public class RoomGeneration : MonoBehaviour
         //open a new space
         spaces[x, y].SetActive(false);
 
-        Vector3 position = new Vector3(x-2, y-2, 0);
+        Vector3 position = new Vector3(2*(x-7), 2*(y-7), 0);
 
         currentRoom = Instantiate(room, position, Quaternion.identity);
-        currentRoom.GetComponent<RoomScript>().xcoord = x-2;
-        currentRoom.GetComponent<RoomScript>().ycoord = y-2;
+        currentRoom.GetComponent<RoomScript>().xcoord = x-7;
+        currentRoom.GetComponent<RoomScript>().ycoord = y-7;
         GameObject player = GameObject.Find("Player");
         player.transform.position = position;
 
