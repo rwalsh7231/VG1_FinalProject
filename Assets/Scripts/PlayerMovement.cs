@@ -128,7 +128,8 @@ public class PlayerMovement : MonoBehaviour
 
 		aimPivot.rotation = Quaternion.Euler(0,0, angleToMouse);
 
-		if(Input.GetMouseButtonDown(0) && currAmmo > 0) {
+        //if player clicks or presses space and ammo is present, fire
+		if((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && currAmmo > 0) {
 			GameObject newProjectile = Instantiate(projectilePrefab);
 			newProjectile.transform.position = transform.position;
 			newProjectile.transform.rotation = aimPivot.rotation;
@@ -136,6 +137,7 @@ public class PlayerMovement : MonoBehaviour
             ammoCount.text = currAmmo.ToString();
 		}
 
+        //pause game
         if(Input.GetKeyDown(KeyCode.Escape)) {
             MenuController.instance.Show();
         }

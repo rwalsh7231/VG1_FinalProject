@@ -1979,7 +1979,7 @@ MonoBehaviour:
   textScore: {fileID: 1804168339}
   finalScore: {fileID: 1964521149}
   ammoCount: {fileID: 1238324112}
-  currAmmo: 5
+  currAmmo: 10
   currStam: 100
   maxStam: 100
   currHealth: 2
