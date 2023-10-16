@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class EnemyBehavior : MonoBehaviour
 {
     public Transform player;
-    public Image imageHealthBar;
 	public float enemyHealthMax;
 	public float enemyHealth;
     public SpriteRenderer spriteHealthBar;
@@ -58,9 +57,6 @@ public class EnemyBehavior : MonoBehaviour
                 if(spriteHealthBar) {
                     Vector3 dimensions = spriteHealthBar.transform.localScale;
                     spriteHealthBar.transform.localScale = new Vector3(dimensions.x*enemyHealth/enemyHealthMax, dimensions.y, dimensions.z);
-                }
-                if(imageHealthBar) {
-                    imageHealthBar.fillAmount = enemyHealth/enemyHealthMax;
                 }
 
                 if (enemyHealth == 0)

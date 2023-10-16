@@ -7,20 +7,28 @@ using TMPro;
 public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement instance;
-    int sprintMult = 1;
+    float sprintMult = 1f;
     public Image stamBar;
     public Image healthBar;
     public TMP_Text textScore;
     public TMP_Text finalScore;
     public TMP_Text ammoCount;
+    public TMP_Text moneyText;
+    public TMP_Text stamText;
+    public TMP_Text healthText;
+    public TMP_Text shotSpeedText;
+    public TMP_Text sprintText;
 
     public int currAmmo;
     public float currStam, maxStam;
     public float currHealth, maxHealth;
     public int score;
+    public int money;
     public float sprintCost;
+    public float speedMultiplier;
     public float stamRecharge;
     public float scoreDelay;
+    public float shotMultiplier;
 
 	Rigidbody2D _rigidbody2D;
 	public Transform aimPivot;
@@ -35,10 +43,18 @@ public class PlayerMovement : MonoBehaviour
 
     void Start() {
         score = 0;
+        shotMultiplier = PlayerPrefs.GetFloat("Shot Speed", 10f);
+        money = PlayerPrefs.GetInt("Money", 0);
+        maxHealth = PlayerPrefs.GetFloat("Health", 2f);
+        maxStam = PlayerPrefs.GetFloat("Stamina", 100f);
         currHealth = maxHealth;
+        currStam = maxStam;
         scoreDelay = 1f;
+        speedMultiplier = PlayerPrefs.GetFloat("Sprint", 2f);
         StartCoroutine("ScoreTimer");
         ammoCount.text = currAmmo.ToString();
+
+        UpdateShopText();
     }
 
     // Update is called once per frame
@@ -56,23 +72,24 @@ public class PlayerMovement : MonoBehaviour
             MenuController.instance.GameOver();
             currHealth = 0;
             finalScore.text = "Final Score: " + score.ToString();
+            PlayerPrefs.SetInt("Money", score + money);
         }
 
         //sprinting capability
         if (Input.GetKeyDown(KeyCode.LeftShift) && currStam > 0)
         {
-            sprintMult = 2;
+            sprintMult = speedMultiplier;
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift) || currStam < 0)
         {
-            sprintMult = 1;
+            sprintMult = 1f;
         }
 
 
         //go up
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
             transform.position += new Vector3(0, 0.5f, 0) * Time.deltaTime*sprintMult;
-            if (sprintMult == 2)
+            if (sprintMult >= 2)
             {
                 currStam -= sprintCost * Time.deltaTime;
                 stamBar.fillAmount = currStam / maxStam;
@@ -82,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
         //go down
         if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
             transform.position += new Vector3(0, -0.5f, 0) * Time.deltaTime*sprintMult;
-            if (sprintMult == 2)
+            if (sprintMult >= 2)
             {
                 currStam -= sprintCost * Time.deltaTime;
                 stamBar.fillAmount = currStam / maxStam;
@@ -92,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
         //go left
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
             transform.position += new Vector3(-0.5f, 0, 0) * Time.deltaTime*sprintMult;
-            if (sprintMult == 2)
+            if (sprintMult >= 2)
             {
                 currStam -= sprintCost * Time.deltaTime;
                 stamBar.fillAmount = currStam / maxStam;
@@ -102,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
         //go right
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
             transform.position += new Vector3(0.5f, 0, 0) * Time.deltaTime * sprintMult;
-            if (sprintMult == 2)
+            if (sprintMult >= 2)
             {
                 currStam -= sprintCost * Time.deltaTime;
                 stamBar.fillAmount = currStam / maxStam;
@@ -158,5 +175,69 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine("ScoreTimer");
     }
 
-    
+    public void UpgradeStamina() {
+        int cost = 10;
+        if(money >= cost) {
+            money -= cost;
+
+            currStam += 10;
+            maxStam += 10;
+            PlayerPrefs.SetFloat("Stamina", maxStam);
+
+            UpdateShopText();
+        }
+    }
+
+    public void UpgradeHealth() {
+        int cost = 10;
+
+        if(money >= cost) {
+            money -= cost;
+
+            currHealth += 2;
+            maxHealth += 2;
+            PlayerPrefs.SetFloat("Health", maxHealth);
+
+            UpdateShopText();
+        }
+    }
+
+    public void UpgradeSprint() {
+        int cost = 10;
+
+        if(money >= cost) {
+            money -= cost;
+
+            speedMultiplier += 0.1f;
+            PlayerPrefs.SetFloat("Sprint", speedMultiplier);
+
+            UpdateShopText();
+        }
+    }
+
+    public void UpgradeBlastSpeed() {
+        int cost = 10;
+
+        if(money >= cost) {
+            money -= cost;
+
+            shotMultiplier += 1f;
+            PlayerPrefs.SetFloat("Shot Speed", shotMultiplier);
+
+            UpdateShopText();
+        }
+    }
+
+    public void UpdateShopText() {
+        moneyText.text = "Money: " + money;
+        stamText.text = "Max Stamina: " + (int)maxStam;
+        healthText.text = "Max Health: " + (int)maxHealth;
+        shotSpeedText.text = "Shot Speed: x" + (int)shotMultiplier;
+        sprintText.text = "Sprint Speed: " + (int)((speedMultiplier)*100 + 0.1) + "%";
+    }
+
+    public void Reset() {
+        money = 0;
+        PlayerPrefs.DeleteAll();
+    }
 }

@@ -11,6 +11,7 @@ public class MenuController : MonoBehaviour
     public GameObject startMenu;
     public GameObject pauseMenu;
     public GameObject gameOverMenu;
+    public GameObject upgradeMenu;
 
     // Methods
     void Awake()
@@ -24,6 +25,7 @@ public class MenuController : MonoBehaviour
         gameObject.SetActive(true);
         pauseMenu.SetActive(false);
         gameOverMenu.SetActive(false);
+        upgradeMenu.SetActive(false);
         Time.timeScale = 0;
         PlayerMovement.instance.isPaused = true;
     }
@@ -50,6 +52,17 @@ public class MenuController : MonoBehaviour
         startMenu.SetActive(false);
         pauseMenu.SetActive(false);
         gameOverMenu.SetActive(true);
+        upgradeMenu.SetActive(false);
+        gameObject.SetActive(true);
+        Time.timeScale = 0;
+        PlayerMovement.instance.isPaused = true;
+    }
+
+    public void Upgrade() {
+        startMenu.SetActive(false);
+        pauseMenu.SetActive(false);
+        gameOverMenu.SetActive(false);
+        upgradeMenu.SetActive(true);
         gameObject.SetActive(true);
         Time.timeScale = 0;
         PlayerMovement.instance.isPaused = true;

@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
     void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        _rigidbody2D.velocity = transform.right * 10f;
+        _rigidbody2D.velocity = transform.right * PlayerMovement.instance.shotMultiplier;
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -20,6 +20,6 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
