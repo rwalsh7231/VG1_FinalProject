@@ -78,6 +78,153 @@ public class RoomGeneration : MonoBehaviour
         }
     }
 
+    void generateSpecialDoors(char exclusion) {
+
+        //unlike a 1x1 room, 2x2 rooms have 8 possible doors to generate
+        List<string> directions = new List<string> {"UL", "UR", "DL", "DR", "LU", "LD", "RU", "RD"};
+
+        //Avoid bugs and don't add a new door where player entered
+        switch (exclusion)
+        {
+            case 'U':
+                directions.Remove("DL");
+                break;
+            case 'D':
+                directions.Remove("UR");
+                break;
+            case 'L':
+                directions.Remove("RD");
+                break;
+            case 'R':
+                directions.Remove("LU");
+                break;
+            default:
+                break;
+        }
+
+        //find and store the highest values for x and y coords in the big room, this tells us all the coordinate info we need
+        int highestx = 0;
+        int highesty = 0;
+
+        List<int[]> coords = currentRoom.GetComponent<BigRoom>().coords;
+
+        for(int i = 0; i < coords.Count; i++)
+        {
+            if (coords[i][0] > highestx) { 
+                highestx = coords[i][0];
+            }
+            if (coords[i][1] > highesty)
+            {
+                highesty = coords[i][1];
+            }
+        }
+
+        //remove needed edges based on coordinate data
+        if (highestx - 1 == -7) {
+            directions.Remove("LU");
+            directions.Remove("LD");
+        }
+        if (highestx == 7)
+        {
+            directions.Remove("RU");
+            directions.Remove("RD");
+        }
+        if (highesty-1 == -7)
+        {
+            directions.Remove("DL");
+            directions.Remove("DR");
+        }
+        if (highesty == 7)
+        {
+            directions.Remove("UL");
+            directions.Remove("UR");
+        }
+
+        //finally find out how many rooms are to be generated
+        int howMany = Random.Range(1, directions.Count);
+
+        //for each room to be generated
+        for (int i = 0; i < howMany; i++)
+        {
+            //get a random direction
+            int index = Random.Range(0, directions.Count);
+            string direction = directions[index];
+
+            //get the position of the current room
+            Vector3 position = currentRoom.GetComponent<Transform>().position;
+
+            //a placeholder for each door to be generated
+            Object genDoor;
+
+            switch(direction)
+            {
+                case "UL":
+                    position.y += 1.95f;
+                    position.x -= 1f;
+                    genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 90));
+                    genDoor.GetComponent<RoomGeneratingDoor>().roomDir = 'U';
+                    activeDoors.Add(genDoor);
+                    break;
+                case "UR":
+                    position.y += 1.95f;
+                    position.x += 1f;
+                    genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 90));
+                    genDoor.GetComponent<RoomGeneratingDoor>().roomDir = 'U';
+                    activeDoors.Add(genDoor);
+                    break;
+                case "LU":
+                    position.y += 1f;
+                    position.x -= 1.95f;
+                    genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 0));
+                    genDoor.GetComponent<RoomGeneratingDoor>().roomDir = 'L';
+                    activeDoors.Add(genDoor);
+                    break;
+                case "LD":
+                    position.y -= 1f;
+                    position.x -= 1.95f;
+                    genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 0));
+                    genDoor.GetComponent<RoomGeneratingDoor>().roomDir = 'L';
+                    activeDoors.Add(genDoor);
+                    break;
+                case "DR":
+                    position.y -= 1.95f;
+                    position.x += 1f;
+                    genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 90));
+                    genDoor.GetComponent<RoomGeneratingDoor>().roomDir = 'D';
+                    activeDoors.Add(genDoor);
+                    break;
+                case "DL":
+                    position.y -= 1.95f;
+                    position.x -= 1f;
+                    genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 90));
+                    genDoor.GetComponent<RoomGeneratingDoor>().roomDir = 'D';
+                    activeDoors.Add(genDoor);
+                    break;
+                case "RD":
+                    position.y -= 1f;
+                    position.x += 1.95f;
+                    genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 0));
+                    genDoor.GetComponent<RoomGeneratingDoor>().roomDir = 'R';
+                    activeDoors.Add(genDoor);
+                    break;
+                case "RU":
+                    position.y += 1f;
+                    position.x += 1.95f;
+                    genDoor = Instantiate(door, position, Quaternion.Euler(0, 0, 0));
+                    genDoor.GetComponent<RoomGeneratingDoor>().roomDir = 'R';
+                    activeDoors.Add(genDoor);
+                    break;
+                default:
+                    break;
+
+            }
+
+            directions.Remove(direction);
+
+        }
+
+    }
+
     void generateDoor(char exclusion) {
         //first we need to know how many rooms can be generated
         
@@ -176,58 +323,151 @@ public class RoomGeneration : MonoBehaviour
         //get the position of the current room
         Vector3 position = currentRoom.GetComponent<Transform>().position;
 
+        //char special = specialRoom(d.GetComponent<RoomGeneratingDoor>().roomDir);
+        char special = 'X';
+
         GameObject newRoom = null;
 
-        //which direction should a room generate?
-        switch (d.GetComponent<RoomGeneratingDoor>().roomDir) {
-            case 'U':
-                position.y += 2;
-                newRoom = (GameObject) Instantiate(currentRoom, position, Quaternion.identity);
-                newRoom.GetComponent<RoomScript>().ycoord = currentRoom.GetComponent<RoomScript>().ycoord + 1;
-                prevRoomDir = 'D';
-                break;
-            case 'D':
-                position.y -= 2;
-                newRoom = (GameObject) Instantiate(currentRoom, position, Quaternion.identity);
-                newRoom.GetComponent<RoomScript>().ycoord = currentRoom.GetComponent<RoomScript>().ycoord - 1;
-                prevRoomDir = 'U';
-                break;
-            case 'L':
-                position.x -= 2;
-                newRoom = (GameObject) Instantiate(currentRoom, position, Quaternion.identity);
-                newRoom.GetComponent<RoomScript>().xcoord = currentRoom.GetComponent<RoomScript>().xcoord - 1;
-                prevRoomDir = 'R';
-                break;
-            case 'R':
-                position.x += 2;
-                newRoom = (GameObject) Instantiate(currentRoom, position, Quaternion.identity);
-                newRoom.GetComponent<RoomScript>().xcoord = currentRoom.GetComponent<RoomScript>().xcoord + 1;
-                prevRoomDir = 'L';
-                break;
-            default:
-                break;
-        }
-
-        for(int i = 0; i < activeDoors.Count; i++)
+        //can a special room spawn?
+        if (special != 'X')
         {
-            Destroy(activeDoors[i]);
+            //generate a random number, if it is 0, generate a special room
+            int num = Random.Range(0, 5);
+            if (num == 0)
+            {
+                int xcoord = currentRoom.GetComponent<RoomScript>().xcoord;
+                int ycoord = currentRoom.GetComponent<RoomScript>().ycoord;
+
+                switch (special)
+                {
+                    //get coordinates for 2x2 room and generate it
+                    case 'U':
+                        position.y += 3;
+                        position.x += 1;
+                        prevRoomDir = 'D';
+                        newRoom = (GameObject)Instantiate(bigRoom, position, Quaternion.identity);
+                        newRoom.GetComponent<BigRoom>().coords.Add(new int[] {xcoord, ycoord+1});
+                        newRoom.GetComponent<BigRoom>().coords.Add(new int[] {xcoord, ycoord + 2});
+                        newRoom.GetComponent<BigRoom>().coords.Add(new int[] {xcoord+1, ycoord + 1});
+                        newRoom.GetComponent<BigRoom>().coords.Add(new int[] {xcoord+1, ycoord + 2});
+                        prevRoom = currentRoom;
+                        currentRoom = newRoom;
+                        break;
+                    case 'D':
+                        position.y -= 3;
+                        position.x -= 1;
+                        prevRoomDir = 'U';
+                        newRoom = (GameObject)Instantiate(bigRoom, position, Quaternion.identity);
+                        newRoom.GetComponent<BigRoom>().coords.Add(new int[] { xcoord, ycoord - 1 });
+                        newRoom.GetComponent<BigRoom>().coords.Add(new int[] { xcoord, ycoord - 2 });
+                        newRoom.GetComponent<BigRoom>().coords.Add(new int[] { xcoord - 1, ycoord -1});
+                        newRoom.GetComponent<BigRoom>().coords.Add(new int[] { xcoord - 1, ycoord - 2 });
+                        prevRoom = currentRoom;
+                        currentRoom = newRoom;
+                        break;
+                    case 'L':
+                        position.x -= 3;
+                        position.y += 1;
+                        prevRoomDir = 'L';
+                        newRoom = (GameObject)Instantiate(bigRoom, position, Quaternion.identity);
+                        newRoom.GetComponent<BigRoom>().coords.Add(new int[] { xcoord - 1, ycoord});
+                        newRoom.GetComponent<BigRoom>().coords.Add(new int[] { xcoord - 2, ycoord});
+                        newRoom.GetComponent<BigRoom>().coords.Add(new int[] { xcoord - 1, ycoord + 1 });
+                        newRoom.GetComponent<BigRoom>().coords.Add(new int[] { xcoord - 2, ycoord + 1 });
+                        prevRoom = currentRoom;
+                        currentRoom = newRoom;
+                        break;
+                    case 'R':
+                        position.x += 3;
+                        position.y -= 1;
+                        prevRoomDir = 'R';
+                        newRoom = (GameObject)Instantiate(bigRoom, position, Quaternion.identity);
+                        newRoom.GetComponent<BigRoom>().coords.Add(new int[] { xcoord + 1, ycoord });
+                        newRoom.GetComponent<BigRoom>().coords.Add(new int[] { xcoord + 2, ycoord });
+                        newRoom.GetComponent<BigRoom>().coords.Add(new int[] { xcoord + 1, ycoord - 1 });
+                        newRoom.GetComponent<BigRoom>().coords.Add(new int[] { xcoord + 2, ycoord - 1 });
+                        prevRoom = currentRoom;
+                        currentRoom = newRoom;
+                        break;
+                    default:
+                        break;
+                }
+
+                //delete old doors
+                for (int i = 0; i < activeDoors.Count; i++)
+                {
+                    Destroy(activeDoors[i]);
+                }
+
+                List<int[]> coords = currentRoom.GetComponent<BigRoom>().coords;
+
+                //deactivate blocker for each coordinate in special room
+                for (int i = 0; i < coords.Count; i++) {
+                    spaces[coords[i][0] + 7, coords[i][1] + 7].SetActive(false);
+                }
+
+                //clear out old doors
+                activeDoors.Clear();
+
+                //generate a special set of doors for the special room
+                generateSpecialDoors(d.GetComponent<RoomGeneratingDoor>().roomDir);
+
+            }
         }
+        else {
 
-        //deactivate room
-        spaces[newRoom.GetComponent<RoomScript>().xcoord + 7, newRoom.GetComponent<RoomScript>().ycoord + 7].SetActive(false);
+            //which direction should a normal room generate?
+            switch (d.GetComponent<RoomGeneratingDoor>().roomDir)
+            {
+                case 'U':
+                    position.y += 2;
+                    newRoom = (GameObject)Instantiate(currentRoom, position, Quaternion.identity);
+                    newRoom.GetComponent<RoomScript>().ycoord = currentRoom.GetComponent<RoomScript>().ycoord + 1;
+                    prevRoomDir = 'D';
+                    break;
+                case 'D':
+                    position.y -= 2;
+                    newRoom = (GameObject)Instantiate(currentRoom, position, Quaternion.identity);
+                    newRoom.GetComponent<RoomScript>().ycoord = currentRoom.GetComponent<RoomScript>().ycoord - 1;
+                    prevRoomDir = 'U';
+                    break;
+                case 'L':
+                    position.x -= 2;
+                    newRoom = (GameObject)Instantiate(currentRoom, position, Quaternion.identity);
+                    newRoom.GetComponent<RoomScript>().xcoord = currentRoom.GetComponent<RoomScript>().xcoord - 1;
+                    prevRoomDir = 'R';
+                    break;
+                case 'R':
+                    position.x += 2;
+                    newRoom = (GameObject)Instantiate(currentRoom, position, Quaternion.identity);
+                    newRoom.GetComponent<RoomScript>().xcoord = currentRoom.GetComponent<RoomScript>().xcoord + 1;
+                    prevRoomDir = 'L';
+                    break;
+                default:
+                    break;
+            }
 
-        //spaces[(int)position.x + 2, (int)position.y + 2] = newRoom;
+            for (int i = 0; i < activeDoors.Count; i++)
+            {
+                Destroy(activeDoors[i]);
+            }
 
-        activeDoors.Clear();
+            //deactivate blocker
+            spaces[newRoom.GetComponent<RoomScript>().xcoord + 7, newRoom.GetComponent<RoomScript>().ycoord + 7].SetActive(false);
 
-        //current room becomes the new room
-        prevRoom = currentRoom;
-        currentRoom = newRoom;
+            //spaces[(int)position.x + 2, (int)position.y + 2] = newRoom;
 
-        createEvent(position);
+            activeDoors.Clear();
 
-        //make some new rooms
-        generateDoor(d.GetComponent<RoomGeneratingDoor>().roomDir);
+            //current room becomes the new room
+            prevRoom = currentRoom;
+            currentRoom = newRoom;
+
+            createEvent(position);
+
+            //make some new rooms
+            generateDoor(d.GetComponent<RoomGeneratingDoor>().roomDir);
+        }  
 
     }
 
@@ -288,8 +528,53 @@ public class RoomGeneration : MonoBehaviour
         generateDoor('X');
     }
 
-    public int specialRoom() {
-        //which room can spawn? -1 means no special room can spawn
-        return -1;
+    public char specialRoom(char direction) {
+
+        //no two big rooms in a row
+        if (currentRoom.GetComponent<BigRoom>()) {
+            return 'X';
+        }
+
+         int curX = currentRoom.GetComponent<RoomScript>().xcoord + 7;
+         int curY = currentRoom.GetComponent<RoomScript>().ycoord + 7;
+
+        switch (direction) {
+            case 'U':
+                if (curY < 13 && curX < 14) {
+                    if (spaces[curX, curY + 1].activeSelf && spaces[curX, curY+2].activeSelf && spaces[curX+1, curY + 1].activeSelf && spaces[curX+1, curY + 2].activeSelf) {
+                        return 'U';
+                    }
+                }
+                break;
+            case 'D':
+                if (curY > 1 && curX > 0)
+                {
+                    if (spaces[curX, curY - 1].activeSelf && spaces[curX, curY - 2].activeSelf && spaces[curX - 1, curY - 1].activeSelf && spaces[curX - 1, curY - 2].activeSelf)
+                    {
+                        return 'D';
+                    }
+                }
+                break;
+            case 'L':
+                if (curX > 1 && curY < 14) {
+                    if (spaces[curX - 1, curY].activeSelf && spaces[curX - 2, curY].activeSelf && spaces[curX - 1, curY + 1].activeSelf && spaces[curX - 2, curY + 1].activeSelf)
+                    {
+                        return 'L';
+                    }
+                }
+                break;
+            case 'R':
+                if (curX < 13 && curY > 0) {
+                    if (spaces[curX + 1, curY].activeSelf && spaces[curX + 2, curY].activeSelf && spaces[curX + 1, curY - 1].activeSelf && spaces[curX + 2, curY - 1].activeSelf)
+                    {
+                        return 'R';
+                    }
+                }
+                break;
+            default:
+                return 'X';
+        }
+
+        return 'X';
     }
 }
