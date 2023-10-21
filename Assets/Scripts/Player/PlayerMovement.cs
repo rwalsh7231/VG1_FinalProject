@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
     public TMP_Text shotSpeedText;
     public TMP_Text sprintText;
 
+    SpriteRenderer sprite;
+
     public int currAmmo;
     public float currStam, maxStam;
     public float currHealth, maxHealth;
@@ -55,6 +57,8 @@ public class PlayerMovement : MonoBehaviour
         ammoCount.text = currAmmo.ToString();
 
         UpdateShopText();
+
+        sprite = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -89,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
         //go up
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
             transform.position += new Vector3(0, 0.5f, 0) * Time.deltaTime*sprintMult;
+            
             if (sprintMult >= 2)
             {
                 currStam -= sprintCost * Time.deltaTime;
@@ -99,6 +104,7 @@ public class PlayerMovement : MonoBehaviour
         //go down
         if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
             transform.position += new Vector3(0, -0.5f, 0) * Time.deltaTime*sprintMult;
+            
             if (sprintMult >= 2)
             {
                 currStam -= sprintCost * Time.deltaTime;
@@ -109,6 +115,7 @@ public class PlayerMovement : MonoBehaviour
         //go left
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
             transform.position += new Vector3(-0.5f, 0, 0) * Time.deltaTime*sprintMult;
+            sprite.flipX = true;
             if (sprintMult >= 2)
             {
                 currStam -= sprintCost * Time.deltaTime;
@@ -119,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
         //go right
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
             transform.position += new Vector3(0.5f, 0, 0) * Time.deltaTime * sprintMult;
+            sprite.flipX = false;
             if (sprintMult >= 2)
             {
                 currStam -= sprintCost * Time.deltaTime;

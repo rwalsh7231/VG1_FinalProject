@@ -17,6 +17,8 @@ public class RoomGeneration : MonoBehaviour
     public GameObject ammoCrate;
     public GameObject Teleporter;
 
+   // public GameObject SpeedBoost;
+
     //keep track of the room that the player is currently in and the doors that are currently active
     private GameObject currentRoom;
     private GameObject prevRoom;
@@ -494,6 +496,12 @@ public class RoomGeneration : MonoBehaviour
             GameObject Tele = Instantiate(Teleporter, position, Quaternion.identity);
             currentRoom.GetComponent<RoomScript>().eventItem = Tele;
         }
+
+        //if (num == 2)
+       // {
+       //     GameObject SpeedPack = Instantiate(SpeedBoost, position, Quaternion.identity);
+       //     currentRoom.GetComponent<RoomScript>().eventItem = SpeedPack;
+       // }
         
     }
 
