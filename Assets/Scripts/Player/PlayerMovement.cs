@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     public TMP_Text healthText;
     public TMP_Text shotSpeedText;
     public TMP_Text sprintText;
+    public TMP_Text healthRegenText;
+    public TMP_Text baseSpeedText;
 
     SpriteRenderer sprite;
 
@@ -28,7 +30,9 @@ public class PlayerMovement : MonoBehaviour
     public int money;
     public float sprintCost;
     public float speedMultiplier;
+    public float baseSpeed;
     public float stamRecharge;
+    public float healthRegen;
     public float scoreDelay;
     public float shotMultiplier;
 
@@ -49,10 +53,13 @@ public class PlayerMovement : MonoBehaviour
         money = PlayerPrefs.GetInt("Money", 0);
         maxHealth = PlayerPrefs.GetFloat("Health", 2f);
         maxStam = PlayerPrefs.GetFloat("Stamina", 100f);
+        healthRegen = PlayerPrefs.GetFloat("Health Regen", 0);
         currHealth = maxHealth;
         currStam = maxStam;
         scoreDelay = 1f;
         speedMultiplier = PlayerPrefs.GetFloat("Sprint", 2f);
+        baseSpeed = PlayerPrefs.GetFloat("Base Speed", 1f);
+        sprintMult = baseSpeed;
         StartCoroutine("ScoreTimer");
         ammoCount.text = currAmmo.ToString();
 
@@ -82,11 +89,11 @@ public class PlayerMovement : MonoBehaviour
         //sprinting capability
         if (Input.GetKeyDown(KeyCode.LeftShift) && currStam > 0)
         {
-            sprintMult = speedMultiplier;
+            sprintMult = speedMultiplier * baseSpeed;
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift) || currStam < 0)
         {
-            sprintMult = 1f;
+            sprintMult = baseSpeed;
         }
 
 
@@ -94,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
             transform.position += new Vector3(0, 0.5f, 0) * Time.deltaTime*sprintMult;
             
-            if (sprintMult >= 2)
+            if (sprintMult > baseSpeed)
             {
                 currStam -= sprintCost * Time.deltaTime;
                 stamBar.fillAmount = currStam / maxStam;
@@ -105,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
             transform.position += new Vector3(0, -0.5f, 0) * Time.deltaTime*sprintMult;
             
-            if (sprintMult >= 2)
+            if (sprintMult > baseSpeed)
             {
                 currStam -= sprintCost * Time.deltaTime;
                 stamBar.fillAmount = currStam / maxStam;
@@ -116,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
             transform.position += new Vector3(-0.5f, 0, 0) * Time.deltaTime*sprintMult;
             sprite.flipX = true;
-            if (sprintMult >= 2)
+            if (sprintMult > baseSpeed)
             {
                 currStam -= sprintCost * Time.deltaTime;
                 stamBar.fillAmount = currStam / maxStam;
@@ -127,14 +134,14 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
             transform.position += new Vector3(0.5f, 0, 0) * Time.deltaTime * sprintMult;
             sprite.flipX = false;
-            if (sprintMult >= 2)
+            if (sprintMult > baseSpeed)
             {
                 currStam -= sprintCost * Time.deltaTime;
                 stamBar.fillAmount = currStam / maxStam;
             }
         }
 
-        if (sprintMult == 1) {
+        if (sprintMult == baseSpeed) {
             if(currStam < maxStam) {
                 currStam += stamRecharge * Time.deltaTime;
             }
@@ -142,6 +149,16 @@ public class PlayerMovement : MonoBehaviour
                 currStam = maxStam;
             }
             stamBar.fillAmount = currStam / maxStam;
+        }
+
+        if (currHealth < maxHealth && healthRegen > 0) {
+            if(currHealth < maxHealth) {
+                currHealth += healthRegen * Time.deltaTime;
+            }
+            if(currHealth > maxHealth) {
+                currHealth = maxHealth;
+            }
+            healthBar.fillAmount = currHealth / maxHealth;
         }
 
 		Vector3 mousePosition = Input.mousePosition;
@@ -210,14 +227,40 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void UpgradeSprint() {
+    public void UpgradeHealthRegen() {
         int cost = 10;
 
         if(money >= cost) {
             money -= cost;
 
+            healthRegen += 0.01f;
+            PlayerPrefs.SetFloat("Health Regen", healthRegen);
+
+            UpdateShopText();
+        }
+    }
+
+    public void UpgradeSprint() {
+        int cost = 10;
+
+        if(money >= cost && speedMultiplier < 5) {
+            money -= cost;
+
             speedMultiplier += 0.1f;
             PlayerPrefs.SetFloat("Sprint", speedMultiplier);
+
+            UpdateShopText();
+        }
+    }
+
+    public void UpgradeBaseMovement() {
+        int cost = 10;
+
+        if(money >= cost && baseSpeed < 2) {
+            money -= cost;
+
+            baseSpeed += 0.01f;
+            PlayerPrefs.SetFloat("Base Speed", baseSpeed);
 
             UpdateShopText();
         }
@@ -241,7 +284,19 @@ public class PlayerMovement : MonoBehaviour
         stamText.text = "Max Stamina: " + (int)maxStam;
         healthText.text = "Max Health: " + (int)maxHealth;
         shotSpeedText.text = "Shot Speed: x" + (int)shotMultiplier;
-        sprintText.text = "Sprint Speed: " + (int)((speedMultiplier)*100 + 0.1) + "%";
+        if(speedMultiplier < 5) {
+            sprintText.text = "Sprint Speed: " + (int)((speedMultiplier)*100 + 0.1) + "%";
+        }
+        else {
+            sprintText.text = "Sprint Speed: \nMAX (500%)";
+        }
+        if(baseSpeed < 2) {
+            baseSpeedText.text = "Base Speed: " + (int)((baseSpeed)*100 + 0.1) + "%";
+        }
+        else {
+            baseSpeedText.text = "Base Speed: \nMAX (200%)";
+        }
+        healthRegenText.text = "Health Regen: " + ((int)(healthRegen / maxHealth * 1000 + 0.1) / 10.0) + "%";
     }
 
     public void Reset() {

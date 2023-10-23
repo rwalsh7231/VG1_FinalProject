@@ -7,17 +7,39 @@ public class MonsterGeneration : MonoBehaviour
     public float monsterDelay;
     public Transform[] spawnPoints;
     public GameObject littleMonster;
+    public GameObject pursuer;
+    public GameObject boss;
+    private float respawnTimer;
 
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine("MonsterSpawn");
+        respawnTimer = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(GameObject.FindGameObjectsWithTag("Boss").Length != 0 && GameObject.FindGameObjectsWithTag("Pursuer").Length != 0) {
+            respawnTimer = 0;
+        }
+        respawnTimer += Time.deltaTime;
+
+        if(respawnTimer > 8f && GameObject.FindGameObjectsWithTag("Boss").Length == 0) {
+            respawnTimer = 0;
+            int randomSpawnIndex = Random.Range(0, spawnPoints.Length);
+            Transform randomSpawnPoint = spawnPoints[randomSpawnIndex];
+            Instantiate(boss, randomSpawnPoint.position, Quaternion.identity);
+        }
+
+        if(respawnTimer > 4f && GameObject.FindGameObjectsWithTag("Pursuer").Length == 0) {
+            respawnTimer = 0;
+            int randomSpawnIndex = Random.Range(0, spawnPoints.Length);
+            Transform randomSpawnPoint = spawnPoints[randomSpawnIndex];
+            Instantiate(pursuer, randomSpawnPoint.position, Quaternion.identity);
+        }
+
     }
 
     void Spawn() {
@@ -38,5 +60,21 @@ public class MonsterGeneration : MonoBehaviour
 
         // Repeat
         StartCoroutine("MonsterSpawn");
+    }
+
+    IEnumerator BossSpawn() {
+        yield return new WaitForSeconds(5f);
+
+        if(GameObject.FindGameObjectsWithTag("Boss").Length == 0) {
+            int randomSpawnIndex = Random.Range(0, spawnPoints.Length);
+            Transform randomSpawnPoint = spawnPoints[randomSpawnIndex];
+            Instantiate(boss, randomSpawnPoint.position, Quaternion.identity);
+        }
+
+        if(GameObject.FindGameObjectsWithTag("Pursuer").Length == 0) {
+            int randomSpawnIndex = Random.Range(0, spawnPoints.Length);
+            Transform randomSpawnPoint = spawnPoints[randomSpawnIndex];
+            Instantiate(pursuer, randomSpawnPoint.position, Quaternion.identity);
+        }
     }
 }
