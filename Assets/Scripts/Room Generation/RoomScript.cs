@@ -11,8 +11,14 @@ public class RoomScript : MonoBehaviour
     GameObject floor;
     public GameObject eventItem;
 
+    public List<Sprite> possibleSprites = new List<Sprite>();
+
     private void Start()
     {
+        if (possibleSprites.Count > 0) {
+            GetComponent<SpriteRenderer>().sprite = possibleSprites[Random.Range(0, possibleSprites.Count)];
+        }
+
         player = GameObject.Find("Player");
         floor = GameObject.Find("Floor");
     }

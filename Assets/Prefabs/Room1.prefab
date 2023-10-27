@@ -101,6 +101,9 @@ MonoBehaviour:
   xcoord: -2
   ycoord: -1
   eventItem: {fileID: 0}
+  possibleSprites:
+  - {fileID: 21300000, guid: e111544658becbc47af138bac27d874f, type: 3}
+  - {fileID: 21300000, guid: cb3c4dae87a99b749bb0ee765a0ef10c, type: 3}
 --- !u!61 &6478164927238840052
 BoxCollider2D:
   m_ObjectHideFlags: 0
