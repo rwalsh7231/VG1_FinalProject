@@ -1110,6 +1110,8 @@ MonoBehaviour:
   blocker: {fileID: 860684393311245970, guid: 5fab64b3b85674244a4bab216edb850d, type: 3}
   ammoCrate: {fileID: 3818963796930125671, guid: 90130beb4a820b44396059201cc5503d, type: 3}
   Teleporter: {fileID: 7354901670926335878, guid: 1a6e6458b71163d4b88d9327b2d38ec2, type: 3}
+  eventMonster: {fileID: 1671867418990816935, guid: 23704c91bb88f0c428021027209b14e3, type: 3}
+  healthUp: {fileID: 7415251440072489869, guid: c1093222311c58648975639bc475631b, type: 3}
   SpeedBoost: {fileID: 4379318273490488250, guid: f0c6d506e6de447ec8dbd625df0a2422, type: 3}
 --- !u!1001 &351353876
 PrefabInstance:

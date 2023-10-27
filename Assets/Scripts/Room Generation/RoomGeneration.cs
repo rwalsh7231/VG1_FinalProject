@@ -16,6 +16,8 @@ public class RoomGeneration : MonoBehaviour
     public GameObject blocker;
     public GameObject ammoCrate;
     public GameObject Teleporter;
+    public GameObject eventMonster;
+    public GameObject healthUp;
 
     public GameObject SpeedBoost;
 
@@ -487,20 +489,30 @@ public class RoomGeneration : MonoBehaviour
     public void createEvent(Vector3 position) {
         int num = Random.Range(0, 10);
 
-        if (num == 0) {
-            GameObject Ammo = Instantiate(ammoCrate, position, Quaternion.identity);
-            currentRoom.GetComponent<RoomScript>().eventItem = Ammo;
-        }
-
-        if (num == 1) { 
-            GameObject Tele = Instantiate(Teleporter, position, Quaternion.identity);
-            currentRoom.GetComponent<RoomScript>().eventItem = Tele;
-        }
-
-        if (num == 2)
-       {
-           GameObject SpeedPack = Instantiate(SpeedBoost, position, Quaternion.identity);
-           currentRoom.GetComponent<RoomScript>().eventItem = SpeedPack;
+        switch (num)
+        {
+            case 0:
+                GameObject Ammo = Instantiate(ammoCrate, position, Quaternion.identity);
+                currentRoom.GetComponent<RoomScript>().eventItem = Ammo;
+                break;
+            case 1:
+                GameObject Tele = Instantiate(Teleporter, position, Quaternion.identity);
+                currentRoom.GetComponent<RoomScript>().eventItem = Tele;
+                break;
+            case 2:
+                GameObject SpeedPack = Instantiate(SpeedBoost, position, Quaternion.identity);
+                currentRoom.GetComponent<RoomScript>().eventItem = SpeedPack;
+                break;
+            case 3:
+                GameObject monster = Instantiate(eventMonster, position, Quaternion.identity);
+                currentRoom.GetComponent<RoomScript>().eventItem = monster;
+                break;
+            case 4:
+                GameObject HPup = Instantiate(healthUp, position, Quaternion.identity);
+                currentRoom.GetComponent<RoomScript>().eventItem = HPup;
+                break;
+            default:
+                break;
         }
         
     }
