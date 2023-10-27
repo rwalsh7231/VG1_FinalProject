@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2009709879148820764}
   - component: {fileID: 1948985723710018473}
   - component: {fileID: 148494648840346780}
-  - component: {fileID: 5862548142881452960}
   m_Layer: 8
   m_Name: enemy1
   m_TagString: Boss
@@ -256,27 +255,6 @@ PolygonCollider2D:
       - {x: 0.32999998, y: -0.935}
       - {x: 0.29, y: -0.955}
   m_UseDelaunayMesh: 0
---- !u!114 &5862548142881452960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2105374927368272594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 567c0d762335a6a48b144f2dba00ad6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  enemyHealthMax: 10
-  enemyHealth: 10
-  spriteHealthBar: {fileID: 367875387579056066}
-  speedDenominator: 2
-  oneShot: 0
-  damage: 8
-  fragileEnemy: 0
-  enemyPoints: 100
 --- !u!1 &8149855154185695382
 GameObject:
   m_ObjectHideFlags: 0

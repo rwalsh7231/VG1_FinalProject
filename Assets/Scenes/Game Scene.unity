@@ -1110,6 +1110,7 @@ MonoBehaviour:
   blocker: {fileID: 860684393311245970, guid: 5fab64b3b85674244a4bab216edb850d, type: 3}
   ammoCrate: {fileID: 3818963796930125671, guid: 90130beb4a820b44396059201cc5503d, type: 3}
   Teleporter: {fileID: 7354901670926335878, guid: 1a6e6458b71163d4b88d9327b2d38ec2, type: 3}
+  SpeedBoost: {fileID: 4379318273490488250, guid: f0c6d506e6de447ec8dbd625df0a2422, type: 3}
 --- !u!1001 &351353876
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7434,8 +7435,44 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2105374927368272594, guid: 4f4af8a3ad812f8408852284027c74fe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5757154080403260507}
   m_SourcePrefab: {fileID: 100100000, guid: 4f4af8a3ad812f8408852284027c74fe, type: 3}
+--- !u!1 &5757154080403260505 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2105374927368272594, guid: 4f4af8a3ad812f8408852284027c74fe, type: 3}
+  m_PrefabInstance: {fileID: 5757154080403260504}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &5757154080403260506 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 367875387579056066, guid: 4f4af8a3ad812f8408852284027c74fe, type: 3}
+  m_PrefabInstance: {fileID: 5757154080403260504}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5757154080403260507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5757154080403260505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b7d5a0a55dbcf4ebed314c5fc145a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1207694115}
+  chargeDelay: 3
+  speed: 3
+  max_charge_time: 1
+  enemyHealthMax: 10
+  enemyHealth: 10
+  spriteHealthBar: {fileID: 5757154080403260506}
+  oneShot: 0
+  damage: 10
+  fragileEnemy: 0
+  enemyPoints: 50
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
