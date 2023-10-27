@@ -7385,10 +7385,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pursuer
       objectReference: {fileID: 0}
-    - target: {fileID: 1480378784308712140, guid: 609d648772baa5a44b4f7a49b508d893, type: 3}
-      propertyPath: m_SortingOrder
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 3582224868967121601, guid: 609d648772baa5a44b4f7a49b508d893, type: 3}
       propertyPath: player
       value: 
@@ -7471,6 +7467,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 602604156056779540, guid: 4f4af8a3ad812f8408852284027c74fe, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1207694115}
     - target: {fileID: 2009709879148820764, guid: 4f4af8a3ad812f8408852284027c74fe, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.75
@@ -7515,51 +7515,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: enemy1
       objectReference: {fileID: 0}
-    - target: {fileID: 5862548142881452960, guid: 4f4af8a3ad812f8408852284027c74fe, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 1207694115}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2105374927368272594, guid: 4f4af8a3ad812f8408852284027c74fe, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5757154080403260507}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f4af8a3ad812f8408852284027c74fe, type: 3}
---- !u!1 &5757154080403260505 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2105374927368272594, guid: 4f4af8a3ad812f8408852284027c74fe, type: 3}
-  m_PrefabInstance: {fileID: 5757154080403260504}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &5757154080403260506 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 367875387579056066, guid: 4f4af8a3ad812f8408852284027c74fe, type: 3}
-  m_PrefabInstance: {fileID: 5757154080403260504}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5757154080403260507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5757154080403260505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99b7d5a0a55dbcf4ebed314c5fc145a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1207694115}
-  chargeDelay: 3
-  speed: 3
-  max_charge_time: 1
-  enemyHealthMax: 10
-  enemyHealth: 10
-  spriteHealthBar: {fileID: 5757154080403260506}
-  oneShot: 0
-  damage: 10
-  fragileEnemy: 0
-  enemyPoints: 50
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
