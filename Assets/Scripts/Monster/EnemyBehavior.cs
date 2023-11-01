@@ -15,11 +15,14 @@ public class EnemyBehavior : MonoBehaviour
     public float damage;
     public bool fragileEnemy;
     public int enemyPoints;
+    private Vector3 originalDim;
+    private bool dimAssigned;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
+        dimAssigned = false;
     }
 
     // Update is called once per frame
@@ -29,6 +32,11 @@ public class EnemyBehavior : MonoBehaviour
         Vector3 playerDir = player.position - transform.position;
         playerDir.Normalize();
         transform.position += (playerDir * Time.deltaTime)/speedDenominator;
+
+        if(spriteHealthBar && !dimAssigned) {
+            dimAssigned = true;
+            originalDim = spriteHealthBar.transform.localScale;
+        }
     }
 
     //if the pursuer collides with the player, reset game
@@ -55,8 +63,7 @@ public class EnemyBehavior : MonoBehaviour
             else {
                 enemyHealth--;
                 if(spriteHealthBar) {
-                    Vector3 dimensions = spriteHealthBar.transform.localScale;
-                    spriteHealthBar.transform.localScale = new Vector3(dimensions.x*enemyHealth/enemyHealthMax, dimensions.y, dimensions.z);
+                    spriteHealthBar.transform.localScale = new Vector3(originalDim.x*enemyHealth/enemyHealthMax, originalDim.y, originalDim.z);
                 }
 
                 if (enemyHealth == 0)

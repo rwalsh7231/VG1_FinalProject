@@ -19,6 +19,8 @@ public class Charger : MonoBehaviour
     public float damage;
     public bool fragileEnemy;
     public int enemyPoints;
+    private Vector3 originalDim;
+    private bool dimAssigned;
 
     Vector3 playerDir;
 
@@ -27,7 +29,7 @@ public class Charger : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player").transform;
         playerDir = player.position - transform.position;
-
+        dimAssigned = false;
     }
 
     //get player location and rapidly decend upon them for a number of frames
@@ -51,6 +53,11 @@ public class Charger : MonoBehaviour
             timeWaited = 0f;
             chargeTime = 0f;
         }  
+
+        if(spriteHealthBar && !dimAssigned) {
+            dimAssigned = true;
+            originalDim = spriteHealthBar.transform.localScale;
+        }
     }
 
     //if the pursuer collides with the player, reset game
@@ -83,10 +90,8 @@ public class Charger : MonoBehaviour
             else
             {
                 enemyHealth--;
-                if (spriteHealthBar)
-                {
-                    Vector3 dimensions = spriteHealthBar.transform.localScale;
-                    spriteHealthBar.transform.localScale = new Vector3(dimensions.x * enemyHealth / enemyHealthMax, dimensions.y, dimensions.z);
+                if(spriteHealthBar) {
+                    spriteHealthBar.transform.localScale = new Vector3(originalDim.x*enemyHealth/enemyHealthMax, originalDim.y, originalDim.z);
                 }
 
                 if (enemyHealth == 0)
