@@ -303,4 +303,11 @@ public class PlayerMovement : MonoBehaviour
         money = 0;
         PlayerPrefs.DeleteAll();
     }
+
+    void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.GetComponent<Projectile>()) {
+            currHealth -= other.gameObject.GetComponent<Projectile>().damage;
+            healthBar.fillAmount = currHealth / maxHealth;
+        }
+    }
 }
