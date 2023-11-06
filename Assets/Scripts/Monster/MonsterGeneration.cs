@@ -9,18 +9,23 @@ public class MonsterGeneration : MonoBehaviour
     public GameObject littleMonster;
     public GameObject pursuer;
     public GameObject boss;
+    public GameObject rangedBoss;
     private float respawnTimer;
+    private int rangedSpawnThreshold; 
 
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine("MonsterSpawn");
+        StartCoroutine("RangedSpawn");
         respawnTimer = 0;
+        rangedSpawnThreshold = 100;
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if(GameObject.FindGameObjectsWithTag("Boss").Length != 0 && GameObject.FindGameObjectsWithTag("Pursuer").Length != 0) {
             respawnTimer = 0;
         }
@@ -60,6 +65,18 @@ public class MonsterGeneration : MonoBehaviour
 
         // Repeat
         StartCoroutine("MonsterSpawn");
+    }
+
+    IEnumerator RangedSpawn() {
+        yield return new WaitForSeconds(30f);
+
+        if(PlayerMovement.instance.score > rangedSpawnThreshold) {
+            int randomSpawnIndex = Random.Range(0, spawnPoints.Length);
+            Transform randomSpawnPoint = spawnPoints[randomSpawnIndex];
+            Instantiate(rangedBoss, randomSpawnPoint.position, Quaternion.identity);
+        }
+
+        StartCoroutine("RangedSpawn");
     }
 
     IEnumerator BossSpawn() {

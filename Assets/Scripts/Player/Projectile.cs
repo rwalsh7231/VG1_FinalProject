@@ -15,6 +15,10 @@ public class Projectile : MonoBehaviour
         }
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _rigidbody2D.velocity = transform.right * PlayerMovement.instance.shotMultiplier;
+        int LayerEnemyProjectile = LayerMask.NameToLayer("EnemyProjectile");
+        if(gameObject.layer == LayerEnemyProjectile) {
+            _rigidbody2D.velocity = transform.right * 5;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D other)

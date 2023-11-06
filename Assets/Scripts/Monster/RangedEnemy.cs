@@ -5,7 +5,7 @@ using UnityEngine;
 public class RangedEnemy : MonoBehaviour
 {
     public static RangedEnemy instance;
-    public Transform player;
+    private Transform player;
 	public float enemyHealthMax;
 	public float enemyHealth;
     public SpriteRenderer spriteHealthBar;
@@ -22,6 +22,7 @@ public class RangedEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindWithTag("Player").transform;
         dimAssigned = false;
         shooting = false;
     }
