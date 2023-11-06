@@ -3686,7 +3686,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 7
   m_AngularDrag: 2
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -7417,6 +7417,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pursuer
       objectReference: {fileID: 0}
+    - target: {fileID: 928387160596401770, guid: 609d648772baa5a44b4f7a49b508d893, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3582224868967121601, guid: 609d648772baa5a44b4f7a49b508d893, type: 3}
       propertyPath: player
       value: 
@@ -7550,6 +7554,10 @@ PrefabInstance:
     - target: {fileID: 2105374927368272594, guid: 4f4af8a3ad812f8408852284027c74fe, type: 3}
       propertyPath: m_Name
       value: enemy1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2105374927368272594, guid: 4f4af8a3ad812f8408852284027c74fe, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
