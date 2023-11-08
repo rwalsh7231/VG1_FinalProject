@@ -44,14 +44,21 @@ public class RangedEnemy : MonoBehaviour
                 playerDir.Normalize();
                 transform.position -= (playerDir * Time.deltaTime)/speedDenominator;
             }
-            else {
-                if(shooting){
-                    StopCoroutine("Shoot");
-                    shooting = false;
+            else{
+                if(distance <= 6f) {
+                    playerDir.Normalize();
+                    transform.position += (playerDir * Time.deltaTime)/speedDenominator;
                 }
-                playerDir.Normalize();
-                transform.position += (playerDir * Time.deltaTime)/speedDenominator;
+                else {
+                    if(shooting){
+                        StopCoroutine("Shoot");
+                        shooting = false;
+                    }
+                    playerDir.Normalize();
+                    transform.position += (playerDir * Time.deltaTime)/speedDenominator;
+                }
             }
+            
         }
 
         
