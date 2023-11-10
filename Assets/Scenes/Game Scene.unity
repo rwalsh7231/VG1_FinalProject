@@ -1074,6 +1074,7 @@ MonoBehaviour:
   Teleporter: {fileID: 7354901670926335878, guid: 1a6e6458b71163d4b88d9327b2d38ec2, type: 3}
   eventMonster: {fileID: 1671867418990816935, guid: 23704c91bb88f0c428021027209b14e3, type: 3}
   healthUp: {fileID: 7415251440072489869, guid: c1093222311c58648975639bc475631b, type: 3}
+  weaponPickup: {fileID: 8631576034245234312, guid: 6f84818354cdf084cbf845d2b29be9c6, type: 3}
   SpeedBoost: {fileID: 4379318273490488250, guid: f0c6d506e6de447ec8dbd625df0a2422, type: 3}
 --- !u!1001 &351353876
 PrefabInstance:
@@ -3532,7 +3533,6 @@ MonoBehaviour:
   sprintText: {fileID: 1967741330}
   healthRegenText: {fileID: 3007062}
   baseSpeedText: {fileID: 320497316}
-  currAmmo: 10
   currStam: 100
   maxStam: 100
   currHealth: 2
@@ -3547,7 +3547,6 @@ MonoBehaviour:
   scoreDelay: 0
   shotMultiplier: 0
   aimPivot: {fileID: 2145716054}
-  projectilePrefab: {fileID: 1807550168839437370, guid: 5c678ee9aaf0f4d39ac92a9b7cb6d806, type: 3}
   isPaused: 0
   currentWeapon: {fileID: 1226694937}
 --- !u!212 &1207694114

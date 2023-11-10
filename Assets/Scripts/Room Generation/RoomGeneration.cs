@@ -18,6 +18,7 @@ public class RoomGeneration : MonoBehaviour
     public GameObject Teleporter;
     public GameObject eventMonster;
     public GameObject healthUp;
+    public GameObject weaponPickup;
 
     public GameObject SpeedBoost;
 
@@ -510,6 +511,10 @@ public class RoomGeneration : MonoBehaviour
             case 4:
                 GameObject HPup = Instantiate(healthUp, position, Quaternion.identity);
                 currentRoom.GetComponent<RoomScript>().eventItem = HPup;
+                break;
+            case 5:
+                GameObject weap = Instantiate(weaponPickup, position, Quaternion.identity);
+                currentRoom.GetComponent<RoomScript>().eventItem = weap;
                 break;
             default:
                 break;
