@@ -15,7 +15,7 @@ public class WeaponPickup : MonoBehaviour
         {
             int randNum = Random.Range(0, appearances.Count);
             GetComponent<SpriteRenderer>().sprite = appearances[randNum];
-            ID = randNum;
+            ID = randNum+1;
         }
     }
 

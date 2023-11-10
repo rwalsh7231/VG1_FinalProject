@@ -33,6 +33,14 @@ public class Weapon : MonoBehaviour
                     newProjectile.transform.position = transform.position;
                     newProjectile.transform.rotation = rotation;
                     break;
+                case 2:
+                    //fire 8 projectiles with a spread
+                    for (int i = 0; i < 8; i++) {
+                        GameObject p = Instantiate(projectilePrefab);
+                        p.transform.position = transform.position;
+                        p.transform.rotation = rotation * Quaternion.Euler(0, 0, Random.Range(0, 20));
+                    }
+                    break;
                 default:
                     break;
             }
@@ -46,6 +54,12 @@ public class Weapon : MonoBehaviour
                 maxAmmo = 10;
                 currAmmo = 10;
                 GetComponent<SpriteRenderer>().sprite = weaponAppearances[0];
+                break;
+            case 2:
+                this.ID = weapID;
+                maxAmmo = 6;
+                currAmmo = 6;
+                GetComponent<SpriteRenderer>().sprite = weaponAppearances[1];
                 break;
             default:
                 break;
