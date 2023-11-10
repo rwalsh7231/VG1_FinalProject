@@ -23,7 +23,6 @@ public class PlayerMovement : MonoBehaviour
 
     SpriteRenderer sprite;
 
-    public int currAmmo;
     public float currStam, maxStam;
     public float currHealth, maxHealth;
     public int score;
@@ -38,9 +37,10 @@ public class PlayerMovement : MonoBehaviour
 
 	Rigidbody2D _rigidbody2D;
 	public Transform aimPivot;
-	public GameObject projectilePrefab;
 
     public bool isPaused;
+
+    public GameObject currentWeapon;
 
     void Awake()
     {
@@ -61,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
         baseSpeed = PlayerPrefs.GetFloat("Base Speed", 1f);
         sprintMult = baseSpeed;
         StartCoroutine("ScoreTimer");
-        ammoCount.text = currAmmo.ToString();
+        ammoCount.text = currentWeapon.GetComponent<Weapon>().currAmmo.ToString();
 
         UpdateShopText();
 
@@ -77,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         textScore.text = score.ToString();
-        ammoCount.text = currAmmo.ToString();
+        ammoCount.text = currentWeapon.GetComponent<Weapon>().currAmmo.ToString();
 
         if(currHealth <= 0) {
             MenuController.instance.GameOver();
@@ -171,12 +171,11 @@ public class PlayerMovement : MonoBehaviour
 		aimPivot.rotation = Quaternion.Euler(0,0, angleToMouse);
 
         //if player clicks or presses space and ammo is present, fire
-		if((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && currAmmo > 0) {
-			GameObject newProjectile = Instantiate(projectilePrefab);
-			newProjectile.transform.position = transform.position;
-			newProjectile.transform.rotation = aimPivot.rotation;
-            currAmmo--;
-            ammoCount.text = currAmmo.ToString();
+		if((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))) {
+
+            currentWeapon.GetComponent<Weapon>().fireWeapon(aimPivot.rotation);
+
+            ammoCount.text = currentWeapon.GetComponent<Weapon>().currAmmo.ToString();
 		}
 
         //pause game

@@ -7,8 +7,17 @@ public class AmmoScript : MonoBehaviour
     //gives the player ammo and then destroys itself
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //get player's gun and give it half of its max ammo
         if (collision.gameObject.GetComponent<PlayerMovement>()) {
-            collision.gameObject.GetComponent<PlayerMovement>().currAmmo += 10;
+            Weapon playerWeapon = GameObject.Find("Gun").GetComponent<Weapon>();
+
+            playerWeapon.currAmmo += (playerWeapon.maxAmmo / 2);
+
+            if(playerWeapon.currAmmo > playerWeapon.maxAmmo)
+            {
+                playerWeapon.currAmmo = playerWeapon.maxAmmo;
+            }
+
             Destroy(gameObject);
         }
     }
