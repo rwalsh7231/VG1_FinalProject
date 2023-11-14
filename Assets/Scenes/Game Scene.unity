@@ -3801,6 +3801,7 @@ MonoBehaviour:
   weaponAppearances:
   - {fileID: 220437767, guid: da059856fcb64ec4d9db38d7f9930468, type: 3}
   - {fileID: -1066688294, guid: da059856fcb64ec4d9db38d7f9930468, type: 3}
+  - {fileID: -1031872030, guid: da059856fcb64ec4d9db38d7f9930468, type: 3}
   projectilePrefab: {fileID: 1807550168839437370, guid: 5c678ee9aaf0f4d39ac92a9b7cb6d806, type: 3}
   currAmmo: 0
   maxAmmo: 0

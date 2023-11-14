@@ -101,6 +101,7 @@ MonoBehaviour:
   appearances:
   - {fileID: 220437767, guid: da059856fcb64ec4d9db38d7f9930468, type: 3}
   - {fileID: -1066688294, guid: da059856fcb64ec4d9db38d7f9930468, type: 3}
+  - {fileID: -1031872030, guid: da059856fcb64ec4d9db38d7f9930468, type: 3}
 --- !u!61 &1462061936793089955
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -136,8 +137,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0.5}
-    oldSize: {x: 0.16, y: 0.12}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.32, y: 0.24}
     newSize: {x: 0.16, y: 0.12}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

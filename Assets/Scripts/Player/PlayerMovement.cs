@@ -171,7 +171,7 @@ public class PlayerMovement : MonoBehaviour
 		aimPivot.rotation = Quaternion.Euler(0,0, angleToMouse);
 
         //if player clicks or presses space and ammo is present, fire
-		if((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))) {
+		if((Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Space))) {
 
             currentWeapon.GetComponent<Weapon>().fireWeapon(aimPivot.rotation);
 
