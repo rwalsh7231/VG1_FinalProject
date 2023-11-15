@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     public TMP_Text baseSpeedText;
 
     SpriteRenderer sprite;
+    Animator animator;
 
     public float currStam, maxStam;
     public float currHealth, maxHealth;
@@ -39,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
 	public Transform aimPivot;
 
     public bool isPaused;
+    private bool isAnimatedX;
+    private bool isAnimatedY;
 
     public GameObject currentWeapon;
 
@@ -62,10 +65,13 @@ public class PlayerMovement : MonoBehaviour
         sprintMult = baseSpeed;
         StartCoroutine("ScoreTimer");
         ammoCount.text = currentWeapon.GetComponent<Weapon>().currAmmo.ToString();
+        isAnimatedY = false;
+        isAnimatedX = false;
 
         UpdateShopText();
 
         sprite = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -100,6 +106,8 @@ public class PlayerMovement : MonoBehaviour
         //go up
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) {
             transform.position += new Vector3(0, 0.5f, 0) * Time.deltaTime*sprintMult;
+            animator.SetFloat("moveY", 1);
+            isAnimatedY = true;
             
             if (sprintMult > baseSpeed)
             {
@@ -107,37 +115,57 @@ public class PlayerMovement : MonoBehaviour
                 stamBar.fillAmount = currStam / maxStam;
             }
         }
+        else{
+            animator.SetFloat("moveY", 0);
+        }
 
         //go down
         if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) {
             transform.position += new Vector3(0, -0.5f, 0) * Time.deltaTime*sprintMult;
+            animator.SetFloat("moveY", -1);
             
             if (sprintMult > baseSpeed)
             {
                 currStam -= sprintCost * Time.deltaTime;
                 stamBar.fillAmount = currStam / maxStam;
+            }
+        }
+        else {
+            if(!isAnimatedY) {
+                animator.SetFloat("moveY", 0);
             }
         }
 
         //go left
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
             transform.position += new Vector3(-0.5f, 0, 0) * Time.deltaTime*sprintMult;
-            sprite.flipX = true;
+            animator.SetFloat("moveX", -1);
+            isAnimatedX = true;
+
             if (sprintMult > baseSpeed)
             {
                 currStam -= sprintCost * Time.deltaTime;
                 stamBar.fillAmount = currStam / maxStam;
             }
         }
+        else {
+            animator.SetFloat("moveX", 0);
+        }
 
         //go right
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) {
             transform.position += new Vector3(0.5f, 0, 0) * Time.deltaTime * sprintMult;
-            sprite.flipX = false;
+            animator.SetFloat("moveX", 1);
+            
             if (sprintMult > baseSpeed)
             {
                 currStam -= sprintCost * Time.deltaTime;
                 stamBar.fillAmount = currStam / maxStam;
+            }
+        }
+        else {
+            if(!isAnimatedX) {
+                animator.SetFloat("moveX", 0);
             }
         }
 
