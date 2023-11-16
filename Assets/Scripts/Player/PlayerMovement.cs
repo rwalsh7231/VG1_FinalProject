@@ -169,6 +169,13 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        if((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))) {
+            animator.SetFloat("moveX", 0);
+        }
+        if((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))) {
+            animator.SetFloat("moveY", 0);
+        }
+
         if (sprintMult == baseSpeed) {
             if(currStam < maxStam) {
                 currStam += stamRecharge * Time.deltaTime;
