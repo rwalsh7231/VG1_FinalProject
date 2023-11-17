@@ -43,8 +43,16 @@ public class PlayerMovement : MonoBehaviour
     private bool isAnimatedX;
     private bool isAnimatedY;
 
+<<<<<<< Updated upstream
     public GameObject currentWeapon;
     public GameObject explosionPrefab;
+=======
+    //weapon in slot 1
+    public Weapon currentWeapon;
+
+    //weapon in slot 2
+    public Weapon secondaryWeapon;
+>>>>>>> Stashed changes
 
     void Awake()
     {
@@ -65,14 +73,25 @@ public class PlayerMovement : MonoBehaviour
         baseSpeed = PlayerPrefs.GetFloat("Base Speed", 1f);
         sprintMult = baseSpeed;
         StartCoroutine("ScoreTimer");
+<<<<<<< Updated upstream
         ammoCount.text = currentWeapon.GetComponent<Weapon>().currAmmo.ToString();
         isAnimatedY = false;
         isAnimatedX = false;
+=======
+
+        ammoCount.text = currentWeapon.currAmmo.ToString();
+>>>>>>> Stashed changes
 
         UpdateShopText();
 
         sprite = GetComponent<SpriteRenderer>();
+<<<<<<< Updated upstream
         animator = GetComponent<Animator>();
+=======
+
+        secondaryWeapon.weaponPickup(-1);
+
+>>>>>>> Stashed changes
     }
 
     // Update is called once per frame
@@ -209,14 +228,34 @@ public class PlayerMovement : MonoBehaviour
         //if player clicks or presses space and ammo is present, fire
 		if((Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space))) {
 
-            currentWeapon.GetComponent<Weapon>().fireWeapon(aimPivot.rotation);
+            currentWeapon.fireWeapon(aimPivot.rotation);
 
-            ammoCount.text = currentWeapon.GetComponent<Weapon>().currAmmo.ToString();
+            ammoCount.text = currentWeapon.currAmmo.ToString();
 		}
 
         //pause game
         if(Input.GetKeyDown(KeyCode.Escape)) {
             MenuController.instance.Show();
+        }
+
+        //change from primary to secondary weapon
+        if (Input.GetKeyDown(KeyCode.Q)) {
+
+            //if the player has a secondary weapon, do some swapping
+            if (secondaryWeapon.ID != -1) {
+                int currID = currentWeapon.ID;
+                int secondaryID = secondaryWeapon.ID;
+
+                int currAmmo = currentWeapon.currAmmo;
+                int secondaryAmmo = secondaryWeapon.currAmmo;
+
+                currentWeapon.weaponPickup(secondaryID);
+                currentWeapon.currAmmo = secondaryAmmo;
+
+                secondaryWeapon.weaponPickup(currID);
+                secondaryWeapon.currAmmo = currAmmo;
+
+            }
         }
     }
 

@@ -53,7 +53,7 @@ public class Weapon : MonoBehaviour
                     {
                         newProjectile = Instantiate(projectilePrefab);
                         newProjectile.transform.position = transform.position;
-                        newProjectile.transform.rotation = rotation * Quaternion.Euler(0, 0, Random.Range(0, 20));
+                        newProjectile.transform.rotation = rotation * Quaternion.Euler(0, 0, Random.Range(-10, 10));
                     }
                     break;
                 case 3:
@@ -90,7 +90,13 @@ public class Weapon : MonoBehaviour
                 GetComponent<SpriteRenderer>().sprite = weaponAppearances[2];
                 fireDelay = 0.1f;
                 break;
+            
+            //the secondary weapon starts as this
             default:
+                this.ID = -1;
+                maxAmmo = 0;
+                currAmmo = 0;
+                GetComponent<SpriteRenderer>().sprite = weaponAppearances[0];
                 break;
         }
     }
