@@ -17,6 +17,8 @@ public class Weapon : MonoBehaviour
     public float fireDelay = 1f;
     private float fireWait = 0;
 
+    public string weaponName;
+
     //ID determines weapon behaviour when used
     public int ID;
 
@@ -75,6 +77,7 @@ public class Weapon : MonoBehaviour
                 currAmmo = 10;
                 GetComponent<SpriteRenderer>().sprite = weaponAppearances[0];
                 fireDelay = 0.5f;
+                weaponName = "Pistol";
                 break;
             case 2:
                 this.ID = weapID;
@@ -82,6 +85,7 @@ public class Weapon : MonoBehaviour
                 currAmmo = 6;
                 GetComponent<SpriteRenderer>().sprite = weaponAppearances[1];
                 fireDelay = 1f;
+                weaponName = "Shotgun";
                 break;
             case 3:
                 this.ID = weapID;
@@ -89,6 +93,7 @@ public class Weapon : MonoBehaviour
                 currAmmo = 30;
                 GetComponent<SpriteRenderer>().sprite = weaponAppearances[2];
                 fireDelay = 0.1f;
+                weaponName = "Rifle";
                 break;
             
             //the secondary weapon starts as this
@@ -97,6 +102,7 @@ public class Weapon : MonoBehaviour
                 maxAmmo = 0;
                 currAmmo = 0;
                 GetComponent<SpriteRenderer>().sprite = weaponAppearances[0];
+                weaponName = "NA";
                 break;
         }
     }

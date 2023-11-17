@@ -97,8 +97,8 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        textScore.text = score.ToString();
-        ammoCount.text = currentWeapon.GetComponent<Weapon>().currAmmo.ToString();
+        textScore.text = "Score: " + score.ToString();
+        ammoCount.text = currentWeapon.weaponName + " " + currentWeapon.currAmmo.ToString();
 
         if(currHealth <= 0) {
             MenuController.instance.GameOver();
@@ -225,7 +225,7 @@ public class PlayerMovement : MonoBehaviour
 
             currentWeapon.fireWeapon(aimPivot.rotation);
 
-            ammoCount.text = currentWeapon.currAmmo.ToString();
+            ammoCount.text = currentWeapon.weaponName + " " + currentWeapon.currAmmo.ToString();
 		}
 
         //pause game

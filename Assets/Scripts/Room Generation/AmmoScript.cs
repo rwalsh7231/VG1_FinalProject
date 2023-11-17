@@ -11,14 +11,16 @@ public class AmmoScript : MonoBehaviour
         if (collision.gameObject.GetComponent<PlayerMovement>()) {
             Weapon playerWeapon = GameObject.Find("Gun").GetComponent<Weapon>();
 
-            playerWeapon.currAmmo += (playerWeapon.maxAmmo / 2);
+            if (playerWeapon.currAmmo != playerWeapon.maxAmmo) {
+                playerWeapon.currAmmo += (playerWeapon.maxAmmo / 2);
 
-            if(playerWeapon.currAmmo > playerWeapon.maxAmmo)
-            {
-                playerWeapon.currAmmo = playerWeapon.maxAmmo;
+                if (playerWeapon.currAmmo > playerWeapon.maxAmmo)
+                {
+                    playerWeapon.currAmmo = playerWeapon.maxAmmo;
+                }
+
+                Destroy(gameObject);
             }
-
-            Destroy(gameObject);
         }
     }
 }
