@@ -44,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isAnimatedY;
 
     public GameObject currentWeapon;
+    public GameObject explosionPrefab;
 
     void Awake()
     {
