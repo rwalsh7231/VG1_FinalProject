@@ -43,16 +43,13 @@ public class PlayerMovement : MonoBehaviour
     private bool isAnimatedX;
     private bool isAnimatedY;
 
-<<<<<<< Updated upstream
-    public GameObject currentWeapon;
     public GameObject explosionPrefab;
-=======
+
     //weapon in slot 1
     public Weapon currentWeapon;
 
     //weapon in slot 2
     public Weapon secondaryWeapon;
->>>>>>> Stashed changes
 
     void Awake()
     {
@@ -73,25 +70,23 @@ public class PlayerMovement : MonoBehaviour
         baseSpeed = PlayerPrefs.GetFloat("Base Speed", 1f);
         sprintMult = baseSpeed;
         StartCoroutine("ScoreTimer");
-<<<<<<< Updated upstream
-        ammoCount.text = currentWeapon.GetComponent<Weapon>().currAmmo.ToString();
+
+
         isAnimatedY = false;
         isAnimatedX = false;
-=======
 
         ammoCount.text = currentWeapon.currAmmo.ToString();
->>>>>>> Stashed changes
+
 
         UpdateShopText();
 
         sprite = GetComponent<SpriteRenderer>();
-<<<<<<< Updated upstream
+
         animator = GetComponent<Animator>();
-=======
+
 
         secondaryWeapon.weaponPickup(-1);
 
->>>>>>> Stashed changes
     }
 
     // Update is called once per frame
